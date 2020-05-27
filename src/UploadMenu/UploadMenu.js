@@ -1,18 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import classes from './UploadMenu.module.css';
 
 const UploadMenu = (props) => {
     return (
-        <div className="menu">
+        <div className={classes.menu}>
             <ul>
                 <li>
-                    <i class="material-icons">create_new_folder</i>
-                    <button>Upload File</button>
+                    <div className={classes.row}>
+                        <button>
+                            <div className={classes.iconContainer}>
+                                <i class="material-icons">note_add</i>
+                            </div>
+                            <span>Upload File</span>
+                        </button>
+                    </div>
                 </li>
                 <li>
-                    <i class="material-icons">cloud_upload</i>
-                    <button>Upload Folder</button>
+                <div className={classes.row}>
+                        <button>
+                            <div className={classes.iconContainer}>
+                                <i class="material-icons">create_new_folder</i>
+                            </div>
+                            <span>Upload Folder</span>
+                        </button>
+                    </div>
                 </li>
             </ul>
         </div>

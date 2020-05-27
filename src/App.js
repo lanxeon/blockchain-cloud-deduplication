@@ -13,24 +13,32 @@ class App extends Component {
 
   componentDidMount = () => { // or willMount. wait up will confirm
     //business logic here
+    //Web3 and http request functions
   }
 
-  //Web3 and http request functions
+  DropDownMenuToggled = () => {
+    let currentUploadMenu = this.state.UploadMenu;
+    this.setState({
+      UploadMenu: !currentUploadMenu
+    });
+    console.log("lol");
+  }
+
 
   state = {
     files: [],
     userPrivateKey: null,
-  }
+    UploadMenu: false
+  };
 
   render = () => {
     return (
       <div className="container">
-          <Header />
+          <Header uploadOnClick={() => this.DropDownMenuToggled()} uploadMenu={this.state.UploadMenu}/>
           <SideNav />
           <Main />
           <Footer />
           {/* Until up above is bare skeleton. Below is for debugging The dropdown menu for uploading */}
-          <UploadMenu />
       </div>
     );
   }
