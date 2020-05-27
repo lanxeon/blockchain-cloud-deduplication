@@ -1,12 +1,11 @@
-import React from 'react'
-
-import UploadMenu from '../UploadMenu/UploadMenu';
+import React from 'react';
+import classes from './Main.module.css';
 
 const Main = (props) => {
     return (
-        <div>
+        <main className={classes.main}>
             <h1>Main body</h1>
-        </div>
+        </main>
     );
 }
 

@@ -10,7 +10,7 @@ const UploadMenu = (props) => {
                     <div className={classes.row}>
                         <button>
                             <div className={classes.iconContainer}>
-                                <i class="material-icons">note_add</i>
+                                <i className="material-icons">note_add</i>
                             </div>
                             <span>Upload File</span>
                         </button>
@@ -20,7 +20,7 @@ const UploadMenu = (props) => {
                 <div className={classes.row}>
                         <button>
                             <div className={classes.iconContainer}>
-                                <i class="material-icons">create_new_folder</i>
+                                <i className="material-icons">create_new_folder</i>
                             </div>
                             <span>Upload Folder</span>
                         </button>

@@ -4,7 +4,7 @@ import classes from './Footer.module.css';
 
 const Footer = (props) => {
     return (
-        <div className={classes.lol}>Footer</div>
+        <footer className={classes.lol}>Footer</footer>
     );
 }
 

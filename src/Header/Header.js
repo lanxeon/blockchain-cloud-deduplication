@@ -6,8 +6,8 @@ import UploadMenu from '../UploadMenu/UploadMenu';
 const Header = (props) => {
     return (
         <Fragment>
-            <header className>
-                <nav className>
+            <header>
+                <nav>
                     <button>
                         <span>BlockDrive</span>
                     </button>
@@ -27,7 +27,7 @@ const Header = (props) => {
                     </div>
                     <button>
                         {/* <i className="material-icons">face</i> */}
-                        <span>Account</span>
+                        <span>{props.account}</span>
                     </button>
                 </nav>
             </header>
