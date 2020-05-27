@@ -1,0 +1,48 @@
+header {
+    background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 70px;
+    padding: 0 1rem;
+}
+
+nav {
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+a, button {
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    background: none;
+	color: inherit;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+    outline: inherit;
+    display: flex;
+    /* position: relative; */
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.iconContainer {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 100%;
+    text-align: center;
+}
+
+i {
+    position: absolute;
+    transform: translateX(-50%);
+}

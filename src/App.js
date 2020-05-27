@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import Web3 from 'web3';
+
+import Header from './Header/Header';
+import Main from './Main/Main';
+import SideNav from './SideNav/SideNav';
+import Footer from './Footer/Footer';
+import UploadMenu from './UploadMenu/UploadMenu';
+
+class App extends Component {
+
+  componentDidMount = () => { // or willMount. wait up will confirm
+    //business logic here
+  }
+
+  //Web3 and http request functions
+
+  state = {
+    files: [],
+    userPrivateKey: null,
+  }
+
+  render = () => {
+    return (
+      <div className="container">
+          <Header />
+          <SideNav />
+          <Main />
+          <Footer />
+          {/* Until up above is bare skeleton. Below is for debugging The dropdown menu for uploading */}
+          <UploadMenu />
+      </div>
+    );
+  }
 }
 
 export default App;

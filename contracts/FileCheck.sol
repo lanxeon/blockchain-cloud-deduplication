@@ -63,4 +63,9 @@ contract FileCheck {
 
         else emit FileNotExistOrUserNotOwner(_fileHash);
     }
+
+    // function insertFolder(bytes32[] _fileHash, address _address, string memory _name) public
+    // {
+
+    // }
 }
