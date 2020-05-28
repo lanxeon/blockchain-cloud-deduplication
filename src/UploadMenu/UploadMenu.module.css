@@ -50,3 +50,7 @@ i {
     flex-direction: row;
     justify-content: flex-start;
 }
+
+.hidden {
+    display: none;
+}

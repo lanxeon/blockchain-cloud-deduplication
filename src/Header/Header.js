@@ -21,7 +21,7 @@ const Header = (props) => {
                         </button>
                         {
                             props.uploadMenu ?
-                            <UploadMenu /> :
+                            <UploadMenu clickHandler={(file) => props.uploadFile(file)}/> :
                             null
                         }
                     </div>

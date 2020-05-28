@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Web3 from 'web3';
+import { sha256 } from 'js-sha256'
 
 import Header from './Header/Header';
 import Main from './Main/Main';
@@ -44,6 +45,38 @@ class App extends Component {
   }
 
 
+  //To handle file upload
+  fileUploadHandler = async(file) => {
+    let fr = new FileReader();
+
+    fr.onload = async() => {
+      let bf = fr.result;
+      let arr = new Uint8Array(bf);
+      let hexString = "";
+
+      for (let i = 0; i < arr.length; i++)
+        hexString += arr[i].toString(16);
+
+      let hash = "0x" + sha256(hexString);
+      
+      const results = await this.state.FileBlockchain.methods.insertFile(hash, this.state.userPublicKey, file.name).send(
+        {
+          from: this.state.userPublicKey
+        }
+      );
+
+      if(results.events['NewUpload'])
+        alert("New File Uploaded");
+      else if(results.events['DuplicateUpload'])
+        alert("Duplicate Upload: Bandwidth saved");
+      else if(results.events['DuplicateUploadAndUser'])
+        alert("Duplicate User and File: Bandwidth saved");
+    }
+
+    fr.readAsArrayBuffer(file);
+  }
+
+
   //state of the component. use setState to change the state. NOTE: change in state forces a rerender cycle
   state = {
     isLoading: true,
@@ -60,9 +93,10 @@ class App extends Component {
         {!this.state.isLoading ?
         <React.Fragment> 
           <Header 
-          uploadOnClick={() => this.DropDownMenuToggled()} 
+          uploadOnClick={(file) => this.DropDownMenuToggled(file)} 
           uploadMenu={this.state.UploadMenu}
           account={this.state.userPublicKey}
+          uploadFile={(file) => this.fileUploadHandler(file)}
           />
           <SideNav />
           <Main />
