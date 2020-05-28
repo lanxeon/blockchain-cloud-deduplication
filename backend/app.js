@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 // const commentRouter = require('./routes/commentRoutes');
 
 const app = express();
-mongoose.connect("mongodb+srv://lanxion:Theandre2131@cluster0-e3flj.mongodb.net/node-angular?retryWrites=true&w=majority",
+mongoose.connect("mongodb+srv://lanxion:Theandre2131@cluster0-e3flj.mongodb.net/blockchain-dedup?retryWrites=true&w=majority",
                         {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
         console.log("mongoDB connection successful");
@@ -21,7 +21,7 @@ mongoose.connect("mongodb+srv://lanxion:Theandre2131@cluster0-e3flj.mongodb.net/
 //body-parser middleware
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: false }));
-// app.use('/images', express.static(path.join("images")));
+app.use('/files', express.static(path.join("files")));
 
 
 //For enabling CORS

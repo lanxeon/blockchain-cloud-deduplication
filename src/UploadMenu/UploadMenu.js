@@ -5,11 +5,20 @@ import classes from './UploadMenu.module.css';
 
 const UploadMenu = (props) => {
 
+    //Will probably need to patch this later with a custom hook, but you know what they say......
+    //The most permanent solution is a temporary one
     useEffect(() => {
-        document.addEventListener('click', (event) => {
+
+        const handleEvent = (event) => {
             if (menu.current && !menu.current.contains(event.target))
                 props.clickedOutside();
-        });
+        }
+
+        document.addEventListener('click', handleEvent);
+
+        return () => {
+            document.removeEventListener('click', handleEvent);
+        };
     });
 
     //ref for the entire element
