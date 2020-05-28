@@ -11,20 +11,26 @@ import { ABI, ADDRESS } from './config/contract';
 
 class App extends Component {
 
-  componentWillMount = () => { // or willMount. wait up will confirm
-    //business logic here
-    //Web3 and http request functions
+  componentDidMount = () => {
+    //business logic here like Web3 and http request functions
     this.loadBlockchainData();
   }
 
   //Web3 functions to load up blockChain and smart contract data
   async loadBlockchainData() {
+    if(this.state.userPublicKey)
+      this.setState({
+        isLoading: true
+      });
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
     const accounts = await web3.eth.getAccounts();
     this.setState({ userPublicKey: accounts[0] });
     const FileBlockchain = new web3.eth.Contract(ABI, ADDRESS);
     // const taskCount = await todoList.methods.taskCount().call()
     this.setState({ FileBlockchain });
+    this.setState({
+      isLoading: false
+    });
   }
 
 
@@ -40,6 +46,7 @@ class App extends Component {
 
   //state of the component. use setState to change the state. NOTE: change in state forces a rerender cycle
   state = {
+    isLoading: true,
     files: [],
     userPublicKey: null,
     UploadMenu: false
@@ -50,6 +57,8 @@ class App extends Component {
     //Bare skeleton structure
     return (
       <div className="container">
+        {!this.state.isLoading ?
+        <React.Fragment> 
           <Header 
           uploadOnClick={() => this.DropDownMenuToggled()} 
           uploadMenu={this.state.UploadMenu}
@@ -58,6 +67,8 @@ class App extends Component {
           <SideNav />
           <Main />
           <Footer />
+        </React.Fragment>
+          : null}
       </div>
     );
   }
