@@ -8,11 +8,11 @@ const Header = (props) => {
         <Fragment>
             <header>
                 <nav>
-                    <button>
+                    <button style={{fontSize: '1.4rem'}}>
                         <span>BlockDrive</span>
                     </button>
                     <div className={classes.spacer}></div>
-                    <div style={{postiton: 'relative'}}>
+                    <div className={classes.DropDownContainer}>
                         <button onClick={props.uploadOnClick}>
                             <div className={classes.iconContainer}>
                                 <i className="material-icons">cloud_upload</i>

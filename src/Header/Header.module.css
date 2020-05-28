@@ -4,7 +4,7 @@ header {
     flex-direction: column;
     justify-content: center;
     height: 70px;
-    padding: 0 3rem;
+    padding: 0 1.5rem;
 }
 
 nav {
@@ -45,4 +45,9 @@ a, button {
 i {
     position: absolute;
     transform: translateX(-50%);
+}
+
+.DropDownContainer {
+    position: relative;
+    display: inline-block;
 }

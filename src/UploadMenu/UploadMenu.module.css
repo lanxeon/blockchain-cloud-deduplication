@@ -14,6 +14,8 @@ ul {
     flex-direction: column;
     justify-content: center;
     position: absolute;
+    top: 100%;
+    left: -25%;
 
     animation-name: move-down;
     animation-duration: 0.15s;
