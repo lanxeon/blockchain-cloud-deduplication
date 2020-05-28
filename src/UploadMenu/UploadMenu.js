@@ -1,12 +1,23 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import classes from './UploadMenu.module.css';
 
+
 const UploadMenu = (props) => {
 
-    // let file = null;
-    const fileInput = useRef();
+    useEffect(() => {
+        document.addEventListener('click', (event) => {
+            if (menu.current && !menu.current.contains(event.target))
+                props.clickedOutside();
+        });
+    });
 
+    //ref for the entire element
+    let menu = useRef(null);
+    //ref for hidden file input
+    let fileInput = useRef();
+
+    //handling onChange event of file input(which is hidden in DOM)
     const changeHandler = (e) => {
         let file = e.target.files[0];
 
@@ -16,12 +27,13 @@ const UploadMenu = (props) => {
         fileInput.current.value = "";
     }
 
+    //for redirecting button click to input
     const fileClicked = () => {
         fileInput.current.click();
     }
 
     return (
-        <div className={classes.menu}>
+        <div className={classes.menu} ref={menu}>
             <ul>
                 <li>
                     <div className={classes.row}>

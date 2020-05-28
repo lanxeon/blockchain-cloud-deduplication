@@ -44,6 +44,12 @@ class App extends Component {
     });
   }
 
+  //toggling the closing of menu
+  clickedOutsideHandler = () => {
+    if(this.state.UploadMenu)
+      this.setState({UploadMenu: false});
+  }
+
 
   //To handle file upload
   fileUploadHandler = async(file) => {
@@ -97,6 +103,7 @@ class App extends Component {
           uploadMenu={this.state.UploadMenu}
           account={this.state.userPublicKey}
           uploadFile={(file) => this.fileUploadHandler(file)}
+          clickedOutside={this.clickedOutsideHandler}
           />
           <SideNav />
           <Main />

@@ -16,6 +16,7 @@ ul {
     position: absolute;
     top: 100%;
     left: -25%;
+    /* z-index: 2; */
 
     animation-name: move-down;
     animation-duration: 0.15s;
