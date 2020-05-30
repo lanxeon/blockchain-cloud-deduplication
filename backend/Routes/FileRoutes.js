@@ -19,8 +19,8 @@ const storage = multer.diskStorage({
 });
 
 
-router.post('/upload/new', multer({storage: storage}),
-async(req, res, next) => {
+//for new uploads, which involve actually uploading the files
+router.post('/upload/new', multer({storage: storage}).single('file'), async(req, res, next) => {
 
   try {
     let ownerId = null;
@@ -68,3 +68,5 @@ async(req, res, next) => {
     }); 
   }
 });
+
+module.exports = router;

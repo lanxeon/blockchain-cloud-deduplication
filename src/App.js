@@ -2,19 +2,38 @@ import React, { Component } from 'react';
 
 import './App.css';
 import Web3 from 'web3';
-import { sha256 } from 'js-sha256'
+import { sha256 } from 'js-sha256';
+import axios from 'axios';
 
 import Header from './Header/Header';
 import Main from './Main/Main';
 import SideNav from './SideNav/SideNav';
 import Footer from './Footer/Footer';
+import CreateUser from './CreateUser/CreateUser';
 import { ABI, ADDRESS } from './config/contract';
 
 class App extends Component {
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     //business logic here like Web3 and http request functions
-    this.loadBlockchainData();
+    console.log("Entered componentDidMount");
+
+    //load up account from web3, and load up blockchain data into state
+    await this.loadBlockchainData();
+
+    //making http requests after assuring public key exists
+    if(this.state.userPublicKey && this.state.FileBlockchain) {
+      let userExists = await axios.get('http://localhost:3001/user/' + this.state.userPublicKey);
+      if(!userExists.data){
+        console.log('User does not exist in database');
+        this.setState({userExists: false});
+        // let newUser = axios.post('http://localhost:3001/user', )
+      }
+      else {
+        console.log('User found in database');
+        this.setState({userExists: true});
+      }
+    }
   }
 
   //Web3 functions to load up blockChain and smart contract data
@@ -86,30 +105,34 @@ class App extends Component {
   //state of the component. use setState to change the state. NOTE: change in state forces a rerender cycle
   state = {
     isLoading: true,
+    alias: null,
     files: [],
     userPublicKey: null,
+    userExists: false,
     UploadMenu: false
   };
 
   //main function to call that renders the elements on screen
   render = () => {
-    //Bare skeleton structure
+
+    let Page = 
+    <React.Fragment>
+      {!this.state.userExists ? <CreateUser userPublicKey={this.state.userPublicKey}/> : null}
+      {/* Bare skeleton structure  */}
+      <Header 
+      uploadOnClick={(file) => this.DropDownMenuToggled(file)} 
+      uploadMenu={this.state.UploadMenu}
+      account={this.state.userPublicKey}
+      uploadFile={(file) => this.fileUploadHandler(file)}
+      clickedOutside={this.clickedOutsideHandler}
+      />
+      <SideNav />
+      <Main />
+      <Footer />
+    </React.Fragment>
     return (
       <div className="container">
-        {!this.state.isLoading ?
-        <React.Fragment> 
-          <Header 
-          uploadOnClick={(file) => this.DropDownMenuToggled(file)} 
-          uploadMenu={this.state.UploadMenu}
-          account={this.state.userPublicKey}
-          uploadFile={(file) => this.fileUploadHandler(file)}
-          clickedOutside={this.clickedOutsideHandler}
-          />
-          <SideNav />
-          <Main />
-          <Footer />
-        </React.Fragment>
-          : null}
+        {!this.state.isLoading ? Page : null}
       </div>
     );
   }

@@ -13,7 +13,8 @@ router.get('/:key', async(req, res, next) => {
         if(user)
             return res.status(200).send("true");
         
-        res.send(404).json("false");
+        // res.send(404).json("false");
+        return res.status(200).send("false");
     }
     catch(err) {
         res.status(400).json(err);
@@ -26,7 +27,7 @@ router.post('', async(req, res, next) => {
     try {
         let user = new UserModel({
             key: req.body.userKey,
-            alias: req.body.userKey,
+            alias: req.body.userAlias,
             files: [],
         });
 
@@ -43,3 +44,6 @@ router.post('', async(req, res, next) => {
         res.status(400).json(err);
     }
 })
+
+
+module.exports = router;

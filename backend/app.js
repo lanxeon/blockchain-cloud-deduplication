@@ -3,8 +3,8 @@ const bp = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 
-// const userRouter = require('./routes/userRoutes');
-// const postsRouter = require('./routes/postsRoutes');
+const userRouter = require('./routes/UserRoutes');
+const cloudRouter = require('./routes/FileRoutes');
 // const commentRouter = require('./routes/commentRoutes');
 
 const app = express();
@@ -37,8 +37,8 @@ app.use((req,res,next) => {
     next();
 });
 
-// app.use('/posts', postsRouter);
-// app.use('/user', userRouter);
+app.use('/user', userRouter);
+app.use('/cloud', cloudRouter);
 // app.use('/comments', commentRouter);
 
 module.exports = app;
