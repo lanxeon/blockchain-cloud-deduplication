@@ -29,7 +29,7 @@ const Header = (props) => {
                     </div>
                     <button>
                         {/* <i className="material-icons">face</i> */}
-                        <span>{props.account}</span>
+                        <span>{props.accountAlias}</span>
                     </button>
                 </nav>
             </header>

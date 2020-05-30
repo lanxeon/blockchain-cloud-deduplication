@@ -10,12 +10,19 @@ import Main from './Main/Main';
 import SideNav from './SideNav/SideNav';
 import Footer from './Footer/Footer';
 import CreateUser from './CreateUser/CreateUser';
+import LoadingScreen from './LoadingScreen/LoadingScreen';
 import { ABI, ADDRESS } from './config/contract';
 
 class App extends Component {
 
   componentDidMount = async() => {
+
     //business logic here like Web3 and http request functions
+    if(this.state.userPublicKey)
+    this.setState({
+      isLoading: false
+    });
+
     console.log("Entered componentDidMount");
 
     //load up account from web3, and load up blockchain data into state
@@ -27,30 +34,29 @@ class App extends Component {
       if(!userExists.data){
         console.log('User does not exist in database');
         this.setState({userExists: false});
-        // let newUser = axios.post('http://localhost:3001/user', )
       }
       else {
         console.log('User found in database');
-        this.setState({userExists: true});
+        console.log(userExists.data);
+        this.setState({
+          userExists: true,
+          userAlias: userExists.data
+        });
       }
     }
+
+    this.setState({
+      isLoading: false
+    });
   }
 
   //Web3 functions to load up blockChain and smart contract data
   async loadBlockchainData() {
-    if(this.state.userPublicKey)
-      this.setState({
-        isLoading: false
-      });
     const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
     const accounts = await web3.eth.getAccounts();
     this.setState({ userPublicKey: accounts[0] });
     const FileBlockchain = new web3.eth.Contract(ABI, ADDRESS);
-    // const taskCount = await todoList.methods.taskCount().call()
     this.setState({ FileBlockchain });
-    this.setState({
-      isLoading: false
-    });
   }
 
 
@@ -91,11 +97,29 @@ class App extends Component {
       );
 
       if(results.events['NewUpload'])
-        alert("New File Uploaded");
+      {
+        console.log("NEW FILE UPLOAD");
+
+        //making a form to post to backend
+        let formData = new FormData();
+        formData.append('hash', hash);
+        formData.append('owner', this.state.userPublicKey);
+        formData.append('name', file.name);
+        formData.append('fileSize', file.size);
+        formData.append('file', file, file.name);
+
+        let uploaded = await axios.post('http://localhost:3001/cloud/upload/new', formData);
+
+        console.log(uploaded);
+      }
       else if(results.events['DuplicateUpload'])
-        alert("Duplicate Upload: Bandwidth saved");
+      {
+        console.log("DUPLICATE FILE DOWNLOAD")
+      }
       else if(results.events['DuplicateUploadAndUser'])
-        alert("Duplicate User and File: Bandwidth saved");
+      {
+        console.log("DUPLICATE FILE AND USER IS OWNER AS WELL");
+      }
     }
 
     fr.readAsArrayBuffer(file);
@@ -122,7 +146,8 @@ class App extends Component {
       <Header 
       uploadOnClick={(file) => this.DropDownMenuToggled(file)} 
       uploadMenu={this.state.UploadMenu}
-      account={this.state.userPublicKey}
+      accountKey={this.state.userPublicKey}
+      accountAlias={this.state.userAlias}
       uploadFile={(file) => this.fileUploadHandler(file)}
       clickedOutside={this.clickedOutsideHandler}
       />
@@ -130,9 +155,10 @@ class App extends Component {
       <Main />
       <Footer />
     </React.Fragment>
+
     return (
       <div className="container">
-        {!this.state.isLoading ? Page : null}
+        {!this.state.isLoading ? Page : <LoadingScreen />}
       </div>
     );
   }

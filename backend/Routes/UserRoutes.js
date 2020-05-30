@@ -11,7 +11,7 @@ router.get('/:key', async(req, res, next) => {
     {   
         let user = await UserModel.findOne({key: req.params.key});
         if(user)
-            return res.status(200).send("true");
+            return res.status(200).send(user.alias);
         
         // res.send(404).json("false");
         return res.status(200).send("false");
