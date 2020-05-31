@@ -86,6 +86,7 @@ class App extends Component {
 				from: this.state.userPublicKey,
 			});
 
+			//New File, upload entire file to cloud
 			if (results.events["NewUpload"]) {
 				console.log("NEW FILE UPLOAD");
 
@@ -104,11 +105,69 @@ class App extends Component {
 
 				let uploaded = await axios.post("http://localhost:3001/cloud/upload/new", formData);
 
-				console.log(uploaded);
-			} else if (results.events["DuplicateUpload"]) {
+				console.log(uploaded.data.message);
+			}
+			//Duplicate file, register owner as user(if file doesn't exist, then reupload the file as well)
+			else if (results.events["DuplicateUpload"]) {
 				console.log("DUPLICATE FILE DOWNLOAD");
-			} else if (results.events["DuplicateUploadAndUser"]) {
+
+				let fileExists = await axios.get("http://localhost:3001/cloud/integrity/" + hash);
+				console.log(fileExists);
+
+				if (fileExists.data) {
+					let jsonData = {
+						hash: results.events["DuplicateUpload"].returnValues.fh,
+						owner: results.events["DuplicateUpload"].returnValues.addr,
+						name: file.name,
+					};
+					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
+
+					if (duplicateUploadRes.data) alert("Duplicate file: bandwidth and storage of " + file.size / 1000000 + "MB saved");
+					/* eof */
+				} else {
+					//making a form to post to backend
+					let formData = new FormData();
+					formData.append("hash", results.events["DuplicateUpload"].returnValues.fh);
+					formData.append("owner", results.events["DuplicateUpload"].returnValues.addr);
+					formData.append("name", file.name);
+					formData.append("fileSize", file.size);
+					formData.append("file", file, file.name);
+
+					let uploaded = await axios.post("http://localhost:3001/cloud/upload/new", formData);
+
+					console.log(uploaded.data.message);
+				}
+			}
+			//duplicate file and user, need to verify if file exists just in case, if it doesn't, then reupload the file as well
+			else if (results.events["DuplicateUploadAndUser"]) {
 				console.log("DUPLICATE FILE AND USER IS OWNER AS WELL");
+
+				let fileExists = await axios.get("http://localhost:3001/cloud/integrity/" + hash);
+				console.log(fileExists);
+
+				if (fileExists.data) {
+					let jsonData = {
+						hash: results.events["DuplicateUploadAndUser"].returnValues.fh,
+						owner: results.events["DuplicateUploadAndUser"].returnValues.addr,
+						name: file.name,
+					};
+					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
+
+					if (duplicateUploadRes.data) alert("Duplicate file and user: bandwidth and storage of " + file.size / 1000000 + "MB saved");
+					/* eof */
+				} else {
+					//making a form to post to backend
+					let formData = new FormData();
+					formData.append("hash", results.events["DuplicateUploadAndUser"].returnValues.fh);
+					formData.append("owner", results.events["DuplicateUploadAndUser"].returnValues.addr);
+					formData.append("name", file.name);
+					formData.append("fileSize", file.size);
+					formData.append("file", file, file.name);
+
+					let uploaded = await axios.post("http://localhost:3001/cloud/upload/new", formData);
+
+					console.log(uploaded.data.message);
+				}
 			}
 		};
 

@@ -1,0 +1,281 @@
+Link  http://msritcse.in/moodle29/
+
+Username : usn
+Password : CsE6Bstud$20
+
+Questoin wil be pasted fing find answers and indicate below each question,., <- english bro soopar
+
+Indicate answers, dont overwrite other answers <- ok
+
+
+
+ address of B port using nuvoton board is
+Select one:
+a. 0x 5000 4040 <- I THINK
+b. 0x 5000 4000
+c. 0x 5000 4080 
+d. 0x 5000 40a0
+Question 2
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Development system on which we can commonly used Operating system for running the application
+Select one:
+a. Nodemcu board
+b. Raspberry Pi 
+c. Adrunio board
+d. Nuvoton 140VE board.
+Mostly b
+Question 3
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Using Cloud in a IOT applications helps in
+Select one:
+a. storage of data in time sereis
+b. applying AI and Machine learning on data stored
+c. Supports business analytics
+d. a, b, c   <-ans
+e. b and d
+f. a and c
+Question 4
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Ref voltage used by ADC in novoton development board is ------
+Select one:
+a. 3.3V
+b. 5.0V
+c. 4.0V
+d. 7.0V
+
+Question 5
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Programming of embedded system consists of
+Select one:
+a. Setting up the global and local variables
+b. including librarys
+c. a main function
+d. Drivers for periperals    ← I think
+e. All of above
+ANS---> d
+Question 6
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Google Cloud P platform IOT module Pub/Sub has got Subsriber that can be in ----------- mode
+Select one:
+a. PUSh mode
+b. Pull mode
+c. both a and b
+d. none
+Question 7
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+micropython used for programming nodemcu is
+Select one:
+a. subset of python ← 
+b. subset of C
+c. subset of embedded C
+Question 8
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+HTTP is used to get/post data to the server/client -----
+Select one:
+a. sychronously
+b. asyncronously
+c. both
+d. none
+
+
+
+Question 9
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Duty cycle of the PWM0 can be varied by varying the value of controlregister
+Select one:
+a. CMR0
+b. CMR1
+c. CNR2
+d. CNR1
+Question 10
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Channel-2 of ADC can be selected by having ADCHER control register value for channel selection
+Select one:
+a. 0x80
+b. 0x40
+c. 0x04
+d. 0x08
+Question 11
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+ADC channel with NUVOTON development board is -------- bits
+Select one:
+a. 10 bit
+b. 16 bit
+c. 12 bit
+d. 8 bit
+ 
+Question 12
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+SSH can be used in Rasberry Pi to-----
+Select one:
+a. to run application on Rasberry Pi from a local system
+b. to run application on Rasberry Pi from a remote system
+c. to run application on Rasberry Pi using the cloud.
+d. none
+
+
+
+Dashboard / ►CSE / ►Quiz tests / ►6B-IOT-QUIZ1
+Question 13
+Not yet answered
+Marked out of 1
+Not flaggedFlag question
+Question text
+For using a RTC we need to set time, calender od the RTC clock and alarm. The application can make use of RTC clock with the help of --------- to activate on completion of the set time
+Select one:
+a. interrupt
+b. sensor
+c. actuator
+d. Nuvoton 140VE board.
+
+Question 14
+Not yet answered
+Marked out of 1
+Not flaggedFlag question
+Question text
+MQTT protocol is a protocol used to transfer data client to server
+Select one:
+a. sychronously
+b. asyncronously
+c. both
+d. None
+
+Question 15
+Not yet answered
+Marked out of 1
+Not flaggedFlag question
+Question text
+PWM Pulse width modulation is used for
+Select one:
+a. varying speed of DC motor
+b. varying intensity of LED
+c. a and b
+d. None
+
+Question 16
+Not yet answered
+Marked out of 1
+Not flaggedFlag question
+Question text
+Deep sleep function and wakeup fuctions are useful for
+Select one:
+a. high power consumpltion
+b. reducing power consumption
+c. both
+d. None
+
+
+Dashboard 
+/ 
+►
+CSE 
+/ 
+►
+Quiz tests 
+/ 
+►
+6B-IOT-QUIZ1
+Question 17
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+Actuators are devices that are activated by
+Select one:
+a. Microcontoller   <-maybe
+b. sensors
+c. through web browsers
+d. through MQTT
+e. All of the above  <-maybe
+17 : A or E 
+Question 18
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+GPIO can be set to multiple function other than I/O like I2c, ADC, PWM, SPI, UART
+Select one:
+a. true
+b. false
+c. none
+d. both
+Question 19
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+ADC is used to convert analog signal to digital since
+Select one:
+a. real time environment parameters are analog
+b. real time environment parameters are digital
+c. real time environment parameters are analog and digital
+d. realtime values to be stored in microcontrollers as digital values
+e. a and b
+f. a and d   <-ans
+Question 20
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+progamming using following language is fast to execute
+Select one:
+a. micropython
+b. embedded C
+c. assembly   <-ANs
+d. python
+e. None
+ 
+ 
+Number of ADC channels in NodeMCU is -------
+Select one:
+a. one channel and 10 bit resolution
+b. one channel and 8 bit resolution
+c. 8 channels and 10 bit resolution
+d. 8 channels and 16 bit resolution.
+Answer: a
+
+
+Question 5
+Not yet answered
+Marked out of 1
+Flag question
+Question text
+IOT depends critically on following component
+Select one:
+a. sensors
+b. actuators
+c. internet
+d. Cloud

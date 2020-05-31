@@ -13,6 +13,7 @@ const storage = multer.diskStorage({
 	filename: (req, file, cb) => {
 		var pattern = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
 		const extension = file.originalname.slice(file.originalname.indexOf("."));
+		req.fileExtension = extension;
 		const name = req.body.hash + file.originalname.replace(pattern, " ").toLowerCase().split(" ").join("-");
 		cb(null, name + "-" + Date.now() + extension);
 	},
@@ -39,7 +40,7 @@ router.post("/upload/new", multer({ storage: storage }).single("file"), async (r
 			originalName: req.body.name,
 			owners: [{ owner: ownerId }],
 			size: req.body.fileSize,
-			// extension:
+			extension: req.fileExtension,
 		});
 
 		let result = await file.save();
@@ -68,6 +69,66 @@ router.post("/upload/new", multer({ storage: storage }).single("file"), async (r
 			message: "Something went wrong",
 			error: err,
 		});
+	}
+});
+
+
+//for duplicate files, to validate whether they actually exist or not
+router.get("/integrity/:hash", async (req, res, next) => {
+	try {
+		let file = await FileModel.findOne({ hash: req.params.hash });
+		if (file) {
+			return res.status(200).send(file.hash);
+		}
+		res.status(200).send(false);
+	} catch (err) {
+		res.status(500).json({
+			error: err,
+			message: "Something went wrong",
+		});
+	}
+});
+
+
+//to register user as duplicate user
+router.post("/upload/dup", async (req, res, next) => {
+	try {
+		let file = await FileModel.findOne({ hash: req.body.hash });
+		let user = await UserModel.findOne({ key: req.body.owner });
+		if (file && user) {
+			let fileRegisteredUser = file.owners.find(iterOwner => {
+				return iterOwner.owner.equals(user._id);
+			});
+
+			let UserRegisteredFile = user.files.find(iterFile => iterFile.file.equals(file._id));
+
+			let userFileElement = {
+				file: file._id,
+				name: req.body.name,
+			};
+
+			if (!fileRegisteredUser && !UserRegisteredFile) {
+				let ownerUpdated = await UserModel.findOneAndUpdate(
+					{ key: req.body.owner },
+					{ $push: { files: userFileElement } }
+				);
+				if (ownerUpdated) {
+					let fileUpdated = await FileModel.findByIdAndUpdate(file._id, {
+						$push: { owners: { owner: ownerUpdated._id } },
+					});
+					if (fileUpdated) {
+						return res.status(201).json({
+							user: ownerUpdated,
+							file: fileUpdated,
+						});
+					}
+				}
+			}
+		}
+		res.status(200).send(false);
+	} catch (err) {
+		console.log(err);
+		res.status(500).json(err);
 	}
 });
 
