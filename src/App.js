@@ -5,12 +5,12 @@ import Web3 from "web3";
 import { sha256 } from "js-sha256";
 import axios from "axios";
 
-import Header from "./Header/Header";
-import Main from "./Main/Main";
-import SideNav from "./SideNav/SideNav";
-import Footer from "./Footer/Footer";
-import CreateUser from "./CreateUser/CreateUser";
-import LoadingScreen from "./LoadingScreen/LoadingScreen";
+import Header from "./components/Header/Header";
+import Main from "./components/Main/Main";
+import SideNav from "./components/SideNav/SideNav";
+import Footer from "./components/Footer/Footer";
+import CreateUser from "./components/CreateUser/CreateUser";
+import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import { ABI, ADDRESS } from "./config/contract";
 
 class App extends Component {
@@ -194,7 +194,7 @@ class App extends Component {
 		UploadMenu: false,
 	};
 
-	//main function to call that renders the elements on screen
+	//main function to call that renders the elements on screen(ok bit of a correction. rather it renders the virtual DOM)
 	render = () => {
 		let Page = (
 			<React.Fragment>
