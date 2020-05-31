@@ -15,36 +15,44 @@ import { ABI, ADDRESS } from "./config/contract";
 
 class App extends Component {
 	componentDidMount = async () => {
-		//business logic here like Web3 and http request functions
-		if (this.state.userPublicKey)
+		try {
+			//business logic here like Web3 and http request functions
+			if (this.state.userPublicKey)
+				this.setState({
+					isLoading: false,
+				});
+
+			console.log("Entered componentDidMount");
+
+			//load up account from web3, and load up blockchain data into state
+			await this.loadBlockchainData();
+
+			//making http requests after assuring public key exists
+			if (this.state.userPublicKey && this.state.FileBlockchain) {
+				let userExists = await axios.get("http://localhost:3001/user/" + this.state.userPublicKey);
+				if (!userExists.data) {
+					console.log("User does not exist in database");
+					this.setState({ userExists: false });
+				} else {
+					console.log("User found in database");
+					console.log(userExists.data);
+					this.setState({
+						userExists: true,
+						userAlias: userExists.data,
+					});
+				}
+			}
+
 			this.setState({
 				isLoading: false,
 			});
-
-		console.log("Entered componentDidMount");
-
-		//load up account from web3, and load up blockchain data into state
-		await this.loadBlockchainData();
-
-		//making http requests after assuring public key exists
-		if (this.state.userPublicKey && this.state.FileBlockchain) {
-			let userExists = await axios.get("http://localhost:3001/user/" + this.state.userPublicKey);
-			if (!userExists.data) {
-				console.log("User does not exist in database");
-				this.setState({ userExists: false });
-			} else {
-				console.log("User found in database");
-				console.log(userExists.data);
-				this.setState({
-					userExists: true,
-					userAlias: userExists.data,
-				});
-			}
+		} catch (err) {
+			console.log(err);
+			this.setState({
+				isLoading: false,
+				userExists: false,
+			});
 		}
-
-		this.setState({
-			isLoading: false,
-		});
 	};
 
 	//Web3 functions to load up blockChain and smart contract data
@@ -122,7 +130,8 @@ class App extends Component {
 					};
 					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
 
-					if (duplicateUploadRes.data) alert("Duplicate file: bandwidth and storage of " + file.size / 1000000 + "MB saved");
+					if (duplicateUploadRes.data)
+						alert("Duplicate file: bandwidth and storage of " + file.size / 1000000 + "MB saved");
 					/* eof */
 				} else {
 					//making a form to post to backend
@@ -153,7 +162,8 @@ class App extends Component {
 					};
 					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
 
-					if (duplicateUploadRes.data) alert("Duplicate file and user: bandwidth and storage of " + file.size / 1000000 + "MB saved");
+					if (duplicateUploadRes.data)
+						alert("Duplicate file and user: bandwidth and storage of " + file.size / 1000000 + "MB saved");
 					/* eof */
 				} else {
 					//making a form to post to backend
