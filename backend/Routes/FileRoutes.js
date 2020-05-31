@@ -27,7 +27,7 @@ router.post("/upload/new", multer({ storage: storage }).single("file"), async (r
 		let owner = await UserModel.findOne({ key: req.body.owner });
 		if (owner) ownerId = owner._id;
 		else
-			res.status(401).json({
+			return res.status(401).json({
 				message: "Not Authorized",
 			});
 

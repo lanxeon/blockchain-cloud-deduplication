@@ -89,11 +89,16 @@ class App extends Component {
 			if (results.events["NewUpload"]) {
 				console.log("NEW FILE UPLOAD");
 
+				//Getting the returned values from blockchain event
+				const recvHash = results.events["NewUpload"].returnValues.fh;
+				const recvAddr = results.events["NewUpload"].returnValues.addr;
+				const recvName = results.events["NewUpload"].returnValues.name;
+
 				//making a form to post to backend
 				let formData = new FormData();
-				formData.append("hash", hash);
-				formData.append("owner", this.state.userPublicKey);
-				formData.append("name", file.name);
+				formData.append("hash", recvHash); // formData.append("hash", hash);
+				formData.append("owner", recvAddr); // formData.append("owner", this.state.userPublicKey);
+				formData.append("name", recvName); // formData.append("name", file.name);
 				formData.append("fileSize", file.size);
 				formData.append("file", file, file.name);
 
