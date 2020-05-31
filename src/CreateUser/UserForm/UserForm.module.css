@@ -1,24 +1,23 @@
-
 .main {
-    width: 80%;
-    text-align: center;
-    margin: 1rem auto;
+	width: 80%;
+	text-align: center;
+	margin: 1rem auto;
 }
 
 form {
-    width: 100%;
-    /* text-align: center; */
+	width: 100%;
+	/* text-align: center; */
 }
 
 /* need to work on input styling */
 
 input {
-    font-size: 1.2rem;
-    width: 100%;
-    background-color: transparent;
-    opacity: 60%;
-    color: white;
-    outline: none;
-    border: none;
-    border-bottom: 2px solid blue;
+	font-size: 1.2rem;
+	width: 100%;
+	background-color: transparent;
+	opacity: 60%;
+	color: white;
+	outline: none;
+	border: none;
+	border-bottom: 2px solid blue;
 }

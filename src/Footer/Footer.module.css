@@ -1,11 +1,11 @@
 .lol {
-    position: fixed;
-    text-align: center;
-    color: white;
-    width: calc(100vw - 200px);
-    bottom: 5px;
-    margin-left: 200px;
-    background-color: darksalmon;
-    opacity: 50%;
-    font-size: 0.8rem;
+	position: fixed;
+	text-align: center;
+	color: white;
+	width: calc(100vw - 200px);
+	bottom: 5px;
+	margin-left: 200px;
+	background-color: darksalmon;
+	opacity: 50%;
+	font-size: 0.8rem;
 }

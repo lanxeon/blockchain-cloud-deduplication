@@ -9,5 +9,5 @@ export default function LoadingScreen(props) {
                 Loading...
             </div>
         </div>
-    )
+    );
 }

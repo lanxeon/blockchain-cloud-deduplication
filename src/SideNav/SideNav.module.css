@@ -1,25 +1,25 @@
 .SideNav {
-    font-size: 1.2rem;
-    background-color: #000;
-    position: fixed;
-    width: 200px;
-    height: 100%;
-    overflow: auto;
-    overflow-x: hidden;
-    top: 70px;
-    left: 0;
-    padding-top: 1rem;
-    z-index: 1;
-    /* padding-top: 70px; */
+	font-size: 1.2rem;
+	background-color: #000;
+	position: fixed;
+	width: 200px;
+	height: 100%;
+	overflow: auto;
+	overflow-x: hidden;
+	top: 70px;
+	left: 0;
+	padding-top: 1rem;
+	z-index: 1;
+	/* padding-top: 70px; */
 }
 
 .NavBar {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
 }
 
 hr {
-    width: 100%;
+	width: 100%;
 }

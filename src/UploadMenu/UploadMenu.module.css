@@ -1,59 +1,58 @@
-
 ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
 }
 
 .menu {
-    width: 200px;
-    background-color: #262626;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: absolute;
-    top: 100%;
-    left: -25%;
-    /* z-index: 2; */
+	width: 200px;
+	background-color: #262626;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: absolute;
+	top: 100%;
+	left: -25%;
+	/* z-index: 2; */
 
-    animation-name: move-down;
-    animation-duration: 0.15s;
-    animation-timing-function: ease-in-out;
+	animation-name: move-down;
+	animation-duration: 0.15s;
+	animation-timing-function: ease-in-out;
 }
 
 @keyframes move-down {
-    0% {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
+	0% {
+		transform: translateY(-50px);
+		opacity: 0;
+	}
 
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 
 .iconContainer {
-    display: inline-block;
-    position: relative;
-    width: 30px;
-    height: 100%;
-    text-align: center;
+	display: inline-block;
+	position: relative;
+	width: 30px;
+	height: 100%;
+	text-align: center;
 }
 
 i {
-    position: absolute;
-    transform: translateX(-50%);
+	position: absolute;
+	transform: translateX(-50%);
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
 }
 
 .hidden {
-    display: none;
+	display: none;
 }
