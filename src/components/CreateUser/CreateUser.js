@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import classes from "./CreateUser.module.css";
 
-import UserForm from "./UserForm/UserForm";
+import UserForm from "../../containers/UserForm/UserForm";
 
 class CreateUser extends PureComponent {
 	render() {
@@ -13,7 +13,7 @@ class CreateUser extends PureComponent {
 						In order to get started, just make an alias. This will be your identity you use to share files with
 						others... kind of like a username
 					</h3>
-					{this.props.userPublic ? (
+					{this.props.userPublicKey ? (
 						<UserForm userPublicKey={this.props.userPublicKey} />
 					) : (
 						<div>

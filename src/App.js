@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 
 import "./App.css";
+
+//third party libraries
 import Web3 from "web3";
 import { sha256 } from "js-sha256";
 import axios from "axios";
 
+//components and containers
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import SideNav from "./components/SideNav/SideNav";
 import Footer from "./components/Footer/Footer";
 import CreateUser from "./components/CreateUser/CreateUser";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+
+//contract config
 import { ABI, ADDRESS } from "./config/contract";
+
+//context
+import UserContext from "./context/user-context";
 
 class App extends Component {
 	componentDidMount = async () => {
@@ -187,7 +195,7 @@ class App extends Component {
 	//state of the component. use setState to change the state. NOTE: change in state forces a rerender cycle
 	state = {
 		isLoading: true,
-		alias: null,
+		userAlias: null,
 		files: [],
 		userPublicKey: null,
 		userExists: false,
@@ -209,7 +217,14 @@ class App extends Component {
 					clickedOutside={this.clickedOutsideHandler}
 				/>
 				<SideNav />
-				<Main />
+				<UserContext.Provider
+					value={{
+						userPublicKey: this.state.userPublicKey,
+						alias: this.state.userAlias,
+					}}
+				>
+					<Main />
+				</UserContext.Provider>
 				<Footer />
 			</React.Fragment>
 		);

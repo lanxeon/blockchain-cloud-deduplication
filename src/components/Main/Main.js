@@ -6,8 +6,7 @@ import Content from "../../containers/Content/Content";
 const Main = props => {
 	return (
 		<main className={classes.main}>
-			{/* <Content /> */}
-			<div>lol</div>
+			<Content />
 		</main>
 	);
 };
