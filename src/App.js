@@ -196,7 +196,7 @@ class App extends Component {
 	state = {
 		isLoading: true,
 		userAlias: null,
-		files: [],
+		FileBlockchain: null,
 		userPublicKey: null,
 		userExists: false,
 		UploadMenu: false,
@@ -221,6 +221,7 @@ class App extends Component {
 					value={{
 						userPublicKey: this.state.userPublicKey,
 						alias: this.state.userAlias,
+						contract: this.state.FileBlockchain,
 					}}
 				>
 					<Main />

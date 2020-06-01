@@ -140,6 +140,78 @@ router.get("/download", async (req, res, next) => {
 	});
 });
 
+/*
+Steps:
+1. check if file with 'id' exists
+2. check if 'from' is owner of file
+3. check if a user with alias of 'to' exists
+4. push the file to the 'to' owner's files array 
+*/
+
+//for sharing a file from one user to another
+router.post("/share", async (req, res, next) => {
+	try {
+		//setting up variables that we will need
+		let fromUserKey = req.body.from;
+		let toUserAlias = req.body.to;
+		let fileId = req.body.fileId;
+
+		//making some checks
+		let file = await FileModel.findOne({ _id: fileId });
+		let fromUser = await UserModel.findOne({ key: fromUserKey });
+		let toUser = await UserModel.findOne({ alias: toUserAlias });
+
+		//check if file, sharer and user being shared to all exist
+		if (file && fromUser && toUser) {
+			let fromUserId = fromUser._id;
+			let toUserId = toUser._id;
+
+			//check if user is actually owner or not
+			let userIsOwner = file.owners.find(owner => {
+				return owner.owner._id.equals(fromUserId);
+			});
+
+			//if user is owner of the file, proceed to share it with other user
+			if (userIsOwner) {
+				//get the name of file
+				let fileName = file.originalName;
+
+				//add 'to' user to file owners array and add file to the user's files array
+				let updatedFile = await FileModel.findByIdAndUpdate(fileId, { $push: { owners: { toUserId } } });
+				let updatedToUser = await UserModel.findByIdAndUpdate(toUserId, {
+					$push: { files: { file: fileId, name: fileName } },
+				});
+
+				if (updatedFile && updatedToUser) {
+					return res.status(201).json({
+						message: "Successfully shared the file to " + toUserAlias,
+						updatedFile: updatedFile,
+						updatedToUser: updatedToUser,
+					});
+				} else {
+					return res.status(500).json({
+						message: "Something went wrong",
+					});
+				}
+			} else {
+				return res.status(401).json({
+					message: "User is not owner of file",
+				});
+			}
+		}
+
+		res.status(404).json({
+			message: "No such file exists!",
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({
+			message: "Something went wrong",
+			error: err,
+		});
+	}
+});
+
 router.get("/lmao/lol/nigga/what/the/fuck", (req, res, next) => {});
 
 module.exports = router;
