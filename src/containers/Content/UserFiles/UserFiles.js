@@ -3,6 +3,9 @@ import classes from "./UserFiles.module.css";
 
 import UserContext from "../../../context/user-context";
 
+import File from "./File/File";
+import Axios from "axios";
+
 class UserFiles extends Component {
 	static contextType = UserContext;
 
@@ -10,6 +13,7 @@ class UserFiles extends Component {
 	state = {
 		userPublicKey: this.context.userPublicKey,
 		alias: this.context.alias,
+		isLoading: true,
 		files: [
 			{
 				_id: "file1",
@@ -36,6 +40,7 @@ class UserFiles extends Component {
 			{
 				_id: "file3",
 				file: {
+					_id: "lol",
 					hash: "hash",
 					path: "path",
 					size: 123495812,
@@ -48,8 +53,17 @@ class UserFiles extends Component {
 	};
 
 	componentDidMount = async () => {
+		this.setState({ isLoading: true });
 		console.log("[UserFiles] -> ComponentDidMount");
-		console.log(this.state);
+
+		this.setState({ isLoading: false });
+	};
+
+	//for downloading file
+	onDownload = path => {
+		// let result = Axios.post()
+		console.log(path);
+		console.log(this.state.userPublicKey);
 	};
 
 	render() {
@@ -57,7 +71,7 @@ class UserFiles extends Component {
 			<div className={classes.UserFiles}>
 				UserFiles
 				{this.state.files.map(file => (
-					<div key={file._id}>file.name</div> //Will swap it with a file component
+					<File values={file} key={file._id} onDownload={path => this.onDownload(path)} />
 				))}
 			</div>
 		);

@@ -25,7 +25,7 @@ mongoose
 //body-parser middleware
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: false }));
-app.use("/files", express.static(path.join("files")));
+app.use("/files", express.static(path.join("backend/files")));
 
 //For enabling CORS
 app.use((req, res, next) => {
@@ -38,6 +38,5 @@ app.use((req, res, next) => {
 
 app.use("/user", userRouter);
 app.use("/cloud", cloudRouter);
-// app.use('/comments', commentRouter);
 
 module.exports = app;
