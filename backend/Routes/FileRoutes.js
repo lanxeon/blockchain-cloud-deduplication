@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const http = require("http");
 
 const FileModel = require("../Models/File");
 const UserModel = require("../Models/User");
@@ -72,7 +73,6 @@ router.post("/upload/new", multer({ storage: storage }).single("file"), async (r
 	}
 });
 
-
 //for duplicate files, to validate whether they actually exist or not
 router.get("/integrity/:hash", async (req, res, next) => {
 	try {
@@ -88,7 +88,6 @@ router.get("/integrity/:hash", async (req, res, next) => {
 		});
 	}
 });
-
 
 //to register user as duplicate user
 router.post("/upload/dup", async (req, res, next) => {
@@ -131,5 +130,16 @@ router.post("/upload/dup", async (req, res, next) => {
 		res.status(500).json(err);
 	}
 });
+
+//for downloading a file
+router.get("/download", async (req, res, next) => {
+	// req.protocol + "://" + req.get("host");
+	console.log(req.query.path);
+	res.download("backend/" + req.query.path, "lmao.txt", err => {
+		console.log(err);
+	});
+});
+
+router.get("/lmao/lol/nigga/what/the/fuck", (req, res, next) => {});
 
 module.exports = router;

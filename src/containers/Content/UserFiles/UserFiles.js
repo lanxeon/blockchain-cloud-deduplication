@@ -5,6 +5,7 @@ import UserContext from "../../../context/user-context";
 
 import File from "./File/File";
 import Axios from "axios";
+import LoadingScreen from "../../../components/LoadingScreen/LoadingScreen";
 
 class UserFiles extends Component {
 	static contextType = UserContext;
@@ -55,26 +56,42 @@ class UserFiles extends Component {
 	componentDidMount = async () => {
 		this.setState({ isLoading: true });
 		console.log("[UserFiles] -> ComponentDidMount");
+		let fileData = await Axios.get("http://localhost:3001/user/files/" + this.state.userPublicKey);
 
+		if (fileData.data) {
+			this.setState({
+				files: fileData.data.files,
+			});
+		}
 		this.setState({ isLoading: false });
 	};
 
 	//for downloading file
-	onDownload = path => {
-		// let result = Axios.post()
-		console.log(path);
-		console.log(this.state.userPublicKey);
+	onDownload = async (filePath, name) => {
+		// Axios.get("http://localhost:3001/cloud/download?path=" + filePath)
+		// window.open("http://localhost:3001/cloud/download?path=" + path)
+		fetch("http://localhost:3001/cloud/download?path=" + filePath)
+			.then(resp => resp.blob())
+			.then(blob => {
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.style.display = "none";
+				a.href = url;
+				// the filename you want
+				a.download = name;
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+			})
+			.catch(() => alert("oh no!"));
 	};
 
 	render() {
-		return (
-			<div className={classes.UserFiles}>
-				UserFiles
-				{this.state.files.map(file => (
-					<File values={file} key={file._id} onDownload={path => this.onDownload(path)} />
-				))}
-			</div>
-		);
+		let renderFiles = this.state.files.map(file => (
+			<File values={file} key={file._id} onDownload={(filePath, name) => this.onDownload(filePath, name)} />
+		));
+
+		return <div className={classes.UserFiles}>{this.state.isLoading ? <LoadingScreen /> : renderFiles}</div>;
 	}
 }
 
