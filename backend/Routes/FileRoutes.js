@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const http = require("http");
+// const http = require("http");
 
 const FileModel = require("../Models/File");
 const UserModel = require("../Models/User");
@@ -212,6 +212,40 @@ router.post("/share", async (req, res, next) => {
 	}
 });
 
-router.get("/lmao/lol/nigga/what/the/fuck", (req, res, next) => {});
+/*
+steps:
+1. Get the user Key and file id
+2. Pull from array of user
+3. Pull from array of file
+*/
+//for deleting a file from a user
+router.delete("/delete", async (req, res, next) => {
+	try {
+		let userKey = req.body.userKey;
+		let fileId = req.body.fileId;
+
+		let ownerId = await (await UserModel.findOne({ key: userKey }))._id;
+		if (ownerId) {
+			let fileUpdated = await FileModel.updateOne({ _id: fileId }, { $pull: { owners: { owner: ownerId } } });
+			let ownerUpdated = await UserModel.updateOne({ _id: ownerId }, { $pull: { files: { file: fileId } } });
+
+			return res.status(200).json({
+				message: "Updated succesfully",
+				nfile: fileUpdated.n,
+				nmodfile: fileUpdated.nModified,
+				nown: ownerUpdated.n,
+				nmodown: ownerUpdated.nModified,
+			});
+		}
+		res.status(200).json({
+			message: "file not found or user not valid",
+		});
+	} catch (err) {
+		res.status(500).json({
+			message: "Something went wrong",
+			error: err,
+		});
+	}
+});
 
 module.exports = router;
