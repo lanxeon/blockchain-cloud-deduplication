@@ -241,6 +241,7 @@ router.delete("/delete", async (req, res, next) => {
 			message: "file not found or user not valid",
 		});
 	} catch (err) {
+		console.log(err);
 		res.status(500).json({
 			message: "Something went wrong",
 			error: err,

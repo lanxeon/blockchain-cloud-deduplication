@@ -37,6 +37,11 @@ class File extends Component {
 							Download
 						</button>
 					</div>
+					<div className={classes.delete}>
+						<button className={classes.btn} onClick={this.props.onDelete}>
+							Delete
+						</button>
+					</div>
 				</div>
 				<hr></hr>
 			</React.Fragment>

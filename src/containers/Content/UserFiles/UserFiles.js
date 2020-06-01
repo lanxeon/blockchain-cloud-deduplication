@@ -15,6 +15,7 @@ class UserFiles extends Component {
 		userPublicKey: this.context.userPublicKey,
 		alias: this.context.alias,
 		isLoading: true,
+		contract: this.context.contract,
 		files: [],
 	};
 
@@ -48,12 +49,44 @@ class UserFiles extends Component {
 				a.click();
 				window.URL.revokeObjectURL(url);
 			})
-			.catch(() => alert("oh no!"));
+			.catch(() => alert("Something went wrong. Could not download file. Please try again later!"));
+	};
+
+	//for deleting a file
+	onDelete = async fileId => {
+		try {
+			let deleteData = {
+				fileId: fileId,
+				userKey: this.state.userPublicKey,
+			};
+
+			console.log(deleteData);
+			let result = await Axios.delete("http://localhost:3001/cloud/delete", { data: deleteData });
+			alert(result.data.message);
+
+			//Re-render files with new list of files
+			this.setState({ isLoading: true });
+			let fileData = await Axios.get("http://localhost:3001/user/files/" + this.state.userPublicKey);
+
+			if (fileData.data) {
+				this.setState({
+					files: fileData.data.files,
+				});
+			}
+			this.setState({ isLoading: false });
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	render() {
 		let renderFiles = this.state.files.map(file => (
-			<File values={file} key={file._id} onDownload={(filePath, name) => this.onDownload(filePath, name)} />
+			<File
+				values={file}
+				key={file._id}
+				onDownload={(filePath, name) => this.onDownload(filePath, name)}
+				onDelete={this.onDelete.bind(this, file.file._id)}
+			/>
 		));
 
 		return <div className={classes.UserFiles}>{this.state.isLoading ? <LoadingScreen /> : renderFiles}</div>;
