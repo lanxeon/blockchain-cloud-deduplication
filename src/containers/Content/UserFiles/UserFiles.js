@@ -15,42 +15,7 @@ class UserFiles extends Component {
 		userPublicKey: this.context.userPublicKey,
 		alias: this.context.alias,
 		isLoading: true,
-		files: [
-			{
-				_id: "file1",
-				file: {
-					hash: "hash",
-					path: "path",
-					size: 10428,
-					extension: ".txt",
-				},
-				name: "file1.txt",
-				dateAdded: "31/05/2020",
-			},
-			{
-				_id: "file2",
-				file: {
-					hash: "hash",
-					path: "path",
-					size: 9274928,
-					extension: ".pdf",
-				},
-				name: "file2.pdf",
-				dateAdded: "30/05/2020",
-			},
-			{
-				_id: "file3",
-				file: {
-					_id: "lol",
-					hash: "hash",
-					path: "path",
-					size: 123495812,
-					extension: ".docx",
-				},
-				name: "file2.docx",
-				dateAdded: "01/06/2020",
-			},
-		],
+		files: [],
 	};
 
 	componentDidMount = async () => {
@@ -96,3 +61,38 @@ class UserFiles extends Component {
 }
 
 export default UserFiles;
+
+// {
+// 	_id: "file1",
+// 	file: {
+// 		hash: "hash",
+// 		path: "path",
+// 		size: 10428,
+// 		extension: ".txt",
+// 	},
+// 	name: "file1.txt",
+// 	dateAdded: "31/05/2020",
+// },
+// {
+// 	_id: "file2",
+// 	file: {
+// 		hash: "hash",
+// 		path: "path",
+// 		size: 9274928,
+// 		extension: ".pdf",
+// 	},
+// 	name: "file2.pdf",
+// 	dateAdded: "30/05/2020",
+// },
+// {
+// 	_id: "file3",
+// 	file: {
+// 		_id: "lol",
+// 		hash: "hash",
+// 		path: "path",
+// 		size: 123495812,
+// 		extension: ".docx",
+// 	},
+// 	name: "file2.docx",
+// 	dateAdded: "01/06/2020",
+// },

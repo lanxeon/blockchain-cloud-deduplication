@@ -10,4 +10,6 @@
 	align-items: stretch;
 
 	border: 1px solid white;
+	border-left: none;
+	border-right: none;
 }
