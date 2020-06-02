@@ -4,14 +4,14 @@
 	margin: 1rem auto;
 }
 
-form {
+.form {
 	width: 100%;
 	/* text-align: center; */
 }
 
 /* need to work on input styling */
 
-input {
+.input {
 	font-size: 1.1rem;
 	width: 100%;
 	background-color: transparent;

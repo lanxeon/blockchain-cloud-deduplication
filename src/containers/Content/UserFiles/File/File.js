@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import classes from "./File.module.css";
 
+import ShareButton from "./ShareButton/ShareButton";
+
 class File extends Component {
 	size = "";
 	reducedSize = null;
@@ -42,6 +44,7 @@ class File extends Component {
 							Delete
 						</button>
 					</div>
+					<ShareButton onShared={(from, to, fileId) => this.onShared(from, to, fileId)} />
 				</div>
 				<hr></hr>
 			</React.Fragment>

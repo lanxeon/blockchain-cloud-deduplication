@@ -20,7 +20,16 @@ class UserForm extends Component {
 			});
 
 			console.log(result);
-			window.location.reload();
+			if (result.data.err) {
+				this.setState({
+					error: true,
+				});
+			} else {
+				this.setState({
+					error: null,
+				});
+				window.location.reload();
+			}
 		}
 	};
 
@@ -33,8 +42,9 @@ class UserForm extends Component {
 	render() {
 		return (
 			<div className={classes.main}>
-				<form onSubmit={this.formSubmit}>
+				<form classname={classes.form} onSubmit={this.formSubmit}>
 					<input
+						className={classes.input}
 						type="text"
 						minLength="3"
 						maxLength="15"
@@ -42,7 +52,7 @@ class UserForm extends Component {
 						onChange={this.onChangeHandler}
 						placeholder="Enter alias"
 					></input>
-					{this.state.error ? <span>lol</span> : null}
+					{this.state.error ? <span>Username taken!</span> : null}
 				</form>
 			</div>
 		);
