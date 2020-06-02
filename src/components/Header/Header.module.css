@@ -34,7 +34,6 @@ button {
 	cursor: pointer;
 	outline: inherit;
 	display: flex;
-	/* position: relative; */
 }
 
 .spacer {

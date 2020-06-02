@@ -24,7 +24,9 @@ const Header = props => {
 						) : null}
 					</div>
 					<button>
-						{/* <i className="material-icons">face</i> */}
+						<div className={classes.iconContainer}>
+							<i className="material-icons">account_circle</i>
+						</div>
 						<span>{props.accountAlias}</span>
 					</button>
 				</nav>

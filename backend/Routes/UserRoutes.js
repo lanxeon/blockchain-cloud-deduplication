@@ -62,4 +62,28 @@ router.get("/files/:key", async (req, res, next) => {
 	}
 });
 
+//to retrieve user address given the alias
+router.get("/acquire/key/:alias", async (req, res, next) => {
+	try {
+		let userAddress = await UserModel.findOne({ alias: req.params.alias });
+
+		if (userAddress) {
+			return res.status(200).json({
+				error: false,
+				key: userAddress.key,
+			});
+		} else {
+			res.status(404).json({
+				error: true,
+				message: "No user found with such alias",
+			});
+		}
+	} catch (err) {
+		res.status(500).json({
+			error: err,
+			message: "Something went wrong! Internal Server Error",
+		});
+	}
+});
+
 module.exports = router;
