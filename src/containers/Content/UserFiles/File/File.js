@@ -7,7 +7,21 @@ import ShareButton from "./ShareButton/ShareButton";
 class File extends Component {
 	size = "";
 	reducedSize = null;
-	componentWillMount = async () => {
+
+	// componentWillMount = async () => {
+	// 	let fs = this.props.values.file.size;
+	// 	let i = 0;
+	// 	while (fs / 1024 > 1) {
+	// 		fs /= 1024;
+	// 		i += 1;
+	// 		this.size = i === 1 ? "KB" : i === 2 ? "MB" : i === 3 ? "GB" : "B";
+	// 		this.reducedSize = fs.toFixed(1);
+	// 	}
+	// };
+
+	constructor(props) {
+		super(props);
+
 		let fs = this.props.values.file.size;
 		let i = 0;
 		while (fs / 1024 > 1) {
@@ -16,7 +30,7 @@ class File extends Component {
 			this.size = i === 1 ? "KB" : i === 2 ? "MB" : i === 3 ? "GB" : "B";
 			this.reducedSize = fs.toFixed(1);
 		}
-	};
+	}
 
 	render() {
 		return (
@@ -44,7 +58,7 @@ class File extends Component {
 							Delete
 						</button>
 					</div>
-					<ShareButton onShared={(from, to, fileId) => this.onShared(from, to, fileId)} />
+					<ShareButton values={this.props.values} />
 				</div>
 				<hr></hr>
 			</React.Fragment>

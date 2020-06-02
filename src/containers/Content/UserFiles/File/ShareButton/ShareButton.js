@@ -5,10 +5,13 @@ import classes from "./ShareButton.module.css";
 
 class ShareButton extends Component {
 	static contextType = UserContext;
+
+	//refs are probably not needed
 	modal = React.createRef();
 	mainModal = React.createRef();
 
 	state = {
+		contract: this.context.contract,
 		sharing: false,
 		value: "",
 		formError: null,
@@ -18,6 +21,7 @@ class ShareButton extends Component {
 		document.removeEventListener("click", this.clickOutHandler);
 	};
 
+	//it SOMEHOW works. dont ask
 	clickOutHandler = e => {
 		if (this.modal.current && !this.modal.current.contains(e.target)) {
 			this.setState({
@@ -25,12 +29,6 @@ class ShareButton extends Component {
 			});
 		}
 		document.removeEventListener("click", this.clickOutHandler);
-	};
-
-	changedHandler = e => {
-		this.setState({
-			value: e.target.value,
-		});
 	};
 
 	toggleSharing = () => {
@@ -49,7 +47,14 @@ class ShareButton extends Component {
 		}
 	};
 
-	submitHandler = e => {
+	changedHandler = e => {
+		this.setState({
+			value: e.target.value,
+		});
+	};
+
+	//for sharing a file. returns error for the various use cases
+	submitHandler = async e => {
 		e.preventDefault();
 
 		this.setState({

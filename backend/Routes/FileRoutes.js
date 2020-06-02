@@ -184,24 +184,28 @@ router.post("/share", async (req, res, next) => {
 
 				if (updatedFile && updatedToUser) {
 					return res.status(201).json({
+						error: false,
 						message: "Successfully shared the file to " + toUserAlias,
 						updatedFile: updatedFile,
 						updatedToUser: updatedToUser,
 					});
 				} else {
 					return res.status(500).json({
+						error: true,
 						message: "Something went wrong",
 					});
 				}
 			} else {
 				return res.status(401).json({
+					error: true,
 					message: "User is not owner of file",
 				});
 			}
 		}
 
 		res.status(404).json({
-			message: "No such file exists!",
+			error: true,
+			message: "Invalid user",
 		});
 	} catch (err) {
 		console.log(err);
