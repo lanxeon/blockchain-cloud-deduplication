@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import UserContext from "../../../../../context/user-context";
 import classes from "./ShareButton.module.css";
+import Axios from "axios";
 
 class ShareButton extends Component {
 	static contextType = UserContext;
@@ -57,9 +58,32 @@ class ShareButton extends Component {
 	submitHandler = async e => {
 		e.preventDefault();
 
-		this.setState({
-			formError: "Username is already taken",
-		});
+		try {
+			let userExists = await Axios.get("http://localhost:3001/user/acquire/key/" + this.state.value);
+
+			let contractUpdateData = await this.state.contract.methods
+				.shareFile(this.props.values.file.hash, this.context.userPublicKey, userExists.data.key)
+				.send({ from: this.context.userPublicKey });
+
+			if (contractUpdateData.events["FileShared"]) {
+				let fileCloudShare = await Axios.post("http://localhost:3001/cloud/share", {
+					from: this.context.userPublicKey,
+					to: this.state.value,
+					fileId: this.props.values.file._id,
+				});
+
+				console.log(fileCloudShare);
+				alert("file shared to " + this.state.value);
+			}
+
+			this.setState({
+				formError: null,
+				value: "",
+				sharing: false,
+			});
+		} catch (err) {
+			this.setState({ formError: err.response.data.message });
+		}
 	};
 
 	render() {

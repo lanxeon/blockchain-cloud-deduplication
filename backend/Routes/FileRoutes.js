@@ -161,6 +161,10 @@ router.post("/share", async (req, res, next) => {
 		let fromUser = await UserModel.findOne({ key: fromUserKey });
 		let toUser = await UserModel.findOne({ alias: toUserAlias });
 
+		console.log(file);
+		console.log(fromUser);
+		console.log(toUser);
+
 		//check if file, sharer and user being shared to all exist
 		if (file && fromUser && toUser) {
 			let fromUserId = fromUser._id;
