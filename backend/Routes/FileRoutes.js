@@ -161,10 +161,6 @@ router.post("/share", async (req, res, next) => {
 		let fromUser = await UserModel.findOne({ key: fromUserKey });
 		let toUser = await UserModel.findOne({ alias: toUserAlias });
 
-		console.log(file);
-		console.log(fromUser);
-		console.log(toUser);
-
 		//check if file, sharer and user being shared to all exist
 		if (file && fromUser && toUser) {
 			let fromUserId = fromUser._id;
@@ -180,25 +176,28 @@ router.post("/share", async (req, res, next) => {
 				//get the name of file
 				let fileName = file.originalName;
 
-				//add 'to' user to file owners array and add file to the user's files array
-				let updatedFile = await FileModel.findByIdAndUpdate(fileId, { $push: { owners: { owner: toUserId } } });
-				let updatedToUser = await UserModel.findByIdAndUpdate(toUserId, {
-					$push: { files: { file: fileId, name: fileName } },
-				});
+				//some checks to prevent extra shit from being added
+				let fileExistsInUserDb = await UserModel.exists({ _id: toUserId, "files.file": fileId });
+				let userExistsInFileDb = await FileModel.exists({ _id: fileId, "owners.owner": toUserId });
 
-				if (updatedFile && updatedToUser) {
-					return res.status(201).json({
-						error: false,
-						message: "Successfully shared the file to " + toUserAlias,
-						updatedFile: updatedFile,
-						updatedToUser: updatedToUser,
+				// console.log("file exists? " + fileExistsInUserDb);
+				// console.log("user exists? " + userExistsInFileDb);
+
+				let updatedFile, updatedToUser;
+				//add 'to' user to file owners array and add file to the user's files array
+				if (!userExistsInFileDb)
+					updatedFile = await FileModel.findByIdAndUpdate(fileId, { $push: { owners: { owner: toUserId } } });
+				if (!fileExistsInUserDb)
+					updatedToUser = await UserModel.findByIdAndUpdate(toUserId, {
+						$push: { files: { file: fileId, name: fileName } },
 					});
-				} else {
-					return res.status(500).json({
-						error: true,
-						message: "Something went wrong",
-					});
-				}
+
+				return res.status(201).json({
+					error: false,
+					message: "Successfully shared the file to " + toUserAlias,
+					updatedFile: updatedFile,
+					updatedToUser: updatedToUser,
+				});
 			} else {
 				return res.status(401).json({
 					error: true,

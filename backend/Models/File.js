@@ -8,7 +8,7 @@ const FileSchema = mongoose.Schema({
 	originalName: { type: String, required: true },
 	owners: [
 		{
-			owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+			owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", unique: true },
 		},
 	],
 	dateAdded: { type: Date, required: true, default: Date.now },

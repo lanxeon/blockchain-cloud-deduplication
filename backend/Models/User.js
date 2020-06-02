@@ -7,7 +7,7 @@ const UserSchema = mongoose.Schema({
 	dateJoined: { type: Date, required: true, default: Date.now },
 	files: [
 		{
-			file: { type: mongoose.Schema.Types.ObjectId, ref: "File", required: true },
+			file: { type: mongoose.Schema.Types.ObjectId, ref: "File", required: true, unique: true },
 			name: { type: String, required: true },
 			dateAdded: { type: Date, required: true, default: Date.now },
 		},
