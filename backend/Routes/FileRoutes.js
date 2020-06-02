@@ -66,6 +66,7 @@ router.post("/upload/new", multer({ storage: storage }).single("file"), async (r
 			message: "Could not upload file",
 		});
 	} catch (err) {
+		console.log(err);
 		res.status(500).json({
 			message: "Something went wrong",
 			error: err,
