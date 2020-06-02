@@ -5,11 +5,26 @@ import classes from "./ShareButton.module.css";
 
 class ShareButton extends Component {
 	static contextType = UserContext;
+	modal = React.createRef();
+	mainModal = React.createRef();
 
 	state = {
 		sharing: false,
 		value: "",
 		formError: null,
+	};
+
+	componentWillUnmount = () => {
+		document.removeEventListener("click", this.clickOutHandler);
+	};
+
+	clickOutHandler = e => {
+		if (this.modal.current && !this.modal.current.contains(e.target)) {
+			this.setState({
+				sharing: false,
+			});
+		}
+		document.removeEventListener("click", this.clickOutHandler);
 	};
 
 	changedHandler = e => {
@@ -21,9 +36,17 @@ class ShareButton extends Component {
 	toggleSharing = () => {
 		let prevState = this.state.sharing;
 
-		this.setState({
-			sharing: !prevState,
-		});
+		if (!prevState) {
+			this.setState({
+				sharing: !prevState,
+			});
+			document.addEventListener("click", this.clickOutHandler);
+		} else {
+			this.setState({
+				sharing: !prevState,
+			});
+			document.removeEventListener("click", this.clickOutHandler);
+		}
 	};
 
 	submitHandler = e => {
@@ -42,12 +65,12 @@ class ShareButton extends Component {
 		) : null;
 
 		return (
-			<div className={classes.ShareButton}>
+			<div className={classes.ShareButton} ref={this.mainModal}>
 				<button className={classes.btn} onClick={this.toggleSharing}>
 					<span>Share</span>
 				</button>
 				{this.state.sharing ? (
-					<div className={classes.formContainer}>
+					<div className={classes.formContainer} ref={this.modal}>
 						<form className={classes.form} onSubmit={this.submitHandler}>
 							<input
 								className={classes.input}
