@@ -11,7 +11,7 @@ import axios from "axios";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import SideNav from "./components/SideNav/SideNav";
-import Footer from "./components/Footer/Footer";
+// import Footer from "./components/Footer/Footer";
 import CreateUser from "./components/CreateUser/CreateUser";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 
@@ -253,7 +253,7 @@ class App extends Component {
 				>
 					<Main />
 				</UserContext.Provider>
-				<Footer />
+				{/* <Footer /> */}
 			</React.Fragment>
 		);
 
