@@ -177,7 +177,7 @@ router.post("/share", async (req, res, next) => {
 				let fileName = file.originalName;
 
 				//add 'to' user to file owners array and add file to the user's files array
-				let updatedFile = await FileModel.findByIdAndUpdate(fileId, { $push: { owners: { toUserId } } });
+				let updatedFile = await FileModel.findByIdAndUpdate(fileId, { $push: { owners: { owner: toUserId } } });
 				let updatedToUser = await UserModel.findByIdAndUpdate(toUserId, {
 					$push: { files: { file: fileId, name: fileName } },
 				});
