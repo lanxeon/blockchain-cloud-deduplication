@@ -122,6 +122,7 @@ class App extends Component {
 				let uploaded = await axios.post("http://localhost:3001/cloud/upload/new", formData);
 
 				console.log(uploaded.data.message);
+				if (!alert("File of size " + (file.size / (1024 * 1024)).toFixed(1) + "MB uploaded")) window.location.reload();
 			}
 			//Duplicate file, register owner as user(if file doesn't exist, then reupload the file as well)
 			else if (results.events["DuplicateUpload"]) {
@@ -138,8 +139,10 @@ class App extends Component {
 					};
 					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
 
-					if (duplicateUploadRes.data)
-						alert("Duplicate file: bandwidth and storage of " + file.size / 1000000 + "MB saved");
+					console.log(duplicateUploadRes);
+					// if (duplicateUploadRes.data)
+					if (!alert("Duplicate file: bandwidth and storage of " + (file.size / (1024 * 1024)).toFixed(1) + "MB saved"))
+						window.location.reload();
 					/* eof */
 				} else {
 					//making a form to post to backend
@@ -153,6 +156,14 @@ class App extends Component {
 					let uploaded = await axios.post("http://localhost:3001/cloud/upload/new", formData);
 
 					console.log(uploaded.data.message);
+					if (
+						!alert(
+							"Duplicate file and user: bandwidth and storage of " +
+								(file.size / (1024 * 1024)).toFixed(1) +
+								"MB saved"
+						)
+					)
+						window.location.reload();
 				}
 			}
 			//duplicate file and user, need to verify if file exists just in case, if it doesn't, then reupload the file as well
@@ -170,8 +181,16 @@ class App extends Component {
 					};
 					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
 
-					if (duplicateUploadRes.data)
-						alert("Duplicate file and user: bandwidth and storage of " + file.size / 1000000 + "MB saved");
+					console.log(duplicateUploadRes);
+					// if (duplicateUploadRes.data)
+					if (
+						!alert(
+							"Duplicate file and user: bandwidth and storage of " +
+								(file.size / (1024 * 1024)).toFixed(1) +
+								"MB saved"
+						)
+					)
+						window.location.reload();
 					/* eof */
 				} else {
 					//making a form to post to backend
@@ -185,6 +204,14 @@ class App extends Component {
 					let uploaded = await axios.post("http://localhost:3001/cloud/upload/new", formData);
 
 					console.log(uploaded.data.message);
+					if (
+						!alert(
+							"Duplicate file and user: bandwidth and storage of " +
+								(file.size / (1024 * 1024)).toFixed(1) +
+								"MB saved"
+						)
+					)
+						window.location.reload();
 				}
 			}
 		};

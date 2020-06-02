@@ -17,7 +17,7 @@ class CreateUser extends PureComponent {
 						<UserForm userPublicKey={this.props.userPublicKey} />
 					) : (
 						<div>
-							<h1 color="red">NO ETHEREUM CLIENT DETECTED. INSTALL METAMASK</h1>
+							<h1>NO ETHEREUM CLIENT DETECTED. INSTALL METAMASK</h1>
 						</div>
 					)}
 				</div>

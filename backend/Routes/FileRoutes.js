@@ -95,35 +95,51 @@ router.post("/upload/dup", async (req, res, next) => {
 	try {
 		let file = await FileModel.findOne({ hash: req.body.hash });
 		let user = await UserModel.findOne({ key: req.body.owner });
+
 		if (file && user) {
 			let fileRegisteredUser = file.owners.find(iterOwner => {
 				return iterOwner.owner.equals(user._id);
 			});
 
-			let UserRegisteredFile = user.files.find(iterFile => iterFile.file.equals(file._id));
+			let userRegisteredFile = user.files.find(iterFile => iterFile.file.equals(file._id));
 
 			let userFileElement = {
 				file: file._id,
 				name: req.body.name,
 			};
 
-			if (!fileRegisteredUser && !UserRegisteredFile) {
-				let ownerUpdated = await UserModel.findOneAndUpdate(
-					{ key: req.body.owner },
-					{ $push: { files: userFileElement } }
-				);
-				if (ownerUpdated) {
-					let fileUpdated = await FileModel.findByIdAndUpdate(file._id, {
-						$push: { owners: { owner: ownerUpdated._id } },
-					});
-					if (fileUpdated) {
-						return res.status(201).json({
-							user: ownerUpdated,
-							file: fileUpdated,
-						});
-					}
-				}
+			// if (!fileRegisteredUser && !UserRegisteredFile) {
+			// let ownerUpdated = await UserModel.findOneAndUpdate(
+			// 	{ key: req.body.owner },
+			// 	{ $push: { files: userFileElement } }
+			// );
+			// 	if (ownerUpdated) {
+			// let fileUpdated = await FileModel.findByIdAndUpdate(file._id, {
+			// 	$push: { owners: { owner: ownerUpdated._id } },
+			// });
+			// 		if (fileUpdated) {
+			// return res.status(201).json({
+			// 	user: ownerUpdated,
+			// 	file: fileUpdated,
+			// });
+			// 		}
+			// 	}
+			// }
+			let ownerUpdated, fileUpdated;
+			if (!userRegisteredFile) {
+				ownerUpdated = await UserModel.findOneAndUpdate({ key: req.body.owner }, { $push: { files: userFileElement } });
 			}
+			if (!fileRegisteredUser) {
+				fileUpdated = await FileModel.findByIdAndUpdate(file._id, {
+					$push: { owners: { owner: user._id } },
+				});
+			}
+
+			return res.status(201).json({
+				message: "file ownership updated",
+				user: ownerUpdated,
+				file: fileUpdated,
+			});
 		}
 		res.status(200).send(false);
 	} catch (err) {
