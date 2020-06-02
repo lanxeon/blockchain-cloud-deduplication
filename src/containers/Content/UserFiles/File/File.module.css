@@ -15,20 +15,46 @@ div {
 }
 
 .name {
-	width: 40%;
+	width: 350px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
-.fileContainer {
-	margin-left: 12px;
+.size {
+	width: 70px;
+	text-align: end;
 }
+
+.date {
+	width: 200px;
+	text-align: end;
+}
+
+.download {
+	width: 50px;
+}
+
+.delete {
+	width: 50px;
+}
+
+/* .fileContainer {
+	margin-left: 12px;
+} */
 .fileName {
 	margin-left: 32px;
 }
 
-.iconContainer {
+hr {
+	width: calc(100% + 10px) !important;
+	transform: translateX(-5px);
+}
+
+/* .iconContainer {
 	display: inline-block;
 	position: relative;
 	width: 30px;
 	height: 100%;
 	text-align: center;
-}
+} */

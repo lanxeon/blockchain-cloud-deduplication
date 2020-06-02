@@ -8,8 +8,9 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: stretch;
+	flex-wrap: wrap;
 
-	border: 1px solid white;
+	/* border: 1px solid white;
 	border-left: none;
-	border-right: none;
+	border-right: none; */
 }

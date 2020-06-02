@@ -7,7 +7,6 @@ class Content extends Component {
 	render() {
 		return (
 			<div className={classes.content}>
-				<span>Main body Content</span>
 				<UserFiles />
 			</div>
 		);
