@@ -80,14 +80,19 @@ class UserFiles extends Component {
 	};
 
 	render() {
-		let renderFiles = this.state.files.map(file => (
-			<File
-				values={file}
-				key={file._id}
-				onDownload={(filePath, name) => this.onDownload(filePath, name)}
-				onDelete={this.onDelete.bind(this, file.file._id)}
-			/>
-		));
+		let renderFiles;
+		if (this.state.files.length > 0) {
+			renderFiles = this.state.files.map(file => (
+				<File
+					values={file}
+					key={file._id}
+					onDownload={(filePath, name) => this.onDownload(filePath, name)}
+					onDelete={this.onDelete.bind(this, file.file._id)}
+				/>
+			));
+		} else {
+			renderFiles = <h3 style={{ color: "white", textAlign: "center" }}>No Files Uploaded Yet!</h3>;
+		}
 
 		return <div className={classes.UserFiles}>{this.state.isLoading ? <LoadingScreen /> : renderFiles}</div>;
 	}

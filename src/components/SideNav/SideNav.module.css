@@ -1,6 +1,7 @@
 .SideNav {
+	box-sizing: border-box;
 	font-size: 1.2rem;
-	background-color: #000;
+	background-color: #0d0d0d;
 	position: fixed;
 	width: 200px;
 	height: 100%;
@@ -10,7 +11,10 @@
 	left: 0;
 	padding-top: 1rem;
 	z-index: 1;
-	/* padding-top: 70px; */
+	padding-top: 25px;
+	border-style: solid;
+	border-color: rgba(204, 204, 204, 0.383);
+	border-width: 0 0.1px 0 0;
 }
 
 .NavBar {
@@ -20,6 +24,6 @@
 	align-items: center;
 }
 
-hr {
+.NavBar hr {
 	width: 100%;
 }
