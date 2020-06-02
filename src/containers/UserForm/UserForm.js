@@ -42,7 +42,7 @@ class UserForm extends Component {
 	render() {
 		return (
 			<div className={classes.main}>
-				<form classname={classes.form} onSubmit={this.formSubmit}>
+				<form className={classes.form} onSubmit={this.formSubmit}>
 					<input
 						className={classes.input}
 						type="text"
