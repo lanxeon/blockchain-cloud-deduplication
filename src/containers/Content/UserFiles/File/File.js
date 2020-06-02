@@ -22,6 +22,23 @@ class File extends Component {
 	constructor(props) {
 		super(props);
 
+		//for getting icon as per file extension
+		let ext = this.props.values.name.substr(this.props.values.name.lastIndexOf(".") + 1).toLowerCase();
+		this.img =
+			ext === "pdf"
+				? "picture_as_pdf"
+				: ext === "gif"
+				? "gif"
+				: ext === "html"
+				? "code"
+				: ext === "png" || ext === "jpg" || ext === "jpeg"
+				? "insert_photo"
+				: "description";
+
+		//for formatting dates
+		this.date = new Date(this.props.values.dateAdded).toLocaleString();
+
+		//for getting size in respective bytes
 		let fs = this.props.values.file.size;
 		let i = 0;
 		while (fs / 1024 > 1) {
@@ -37,25 +54,31 @@ class File extends Component {
 			<React.Fragment>
 				<div className={classes.file}>
 					<div className={classes.name}>
-						<span>{this.props.values.name}</span>
+						<div className={classes.fileContainer}>
+							<i class="material-icons">{this.img}</i>
+						</div>
+						<div className={classes.fileName}>
+							<span>{this.props.values.name}</span>
+						</div>
 					</div>
 					<div className={classes.size}>
 						<span>{this.reducedSize + this.size}</span>
 					</div>
 					<div className={classes.date}>
-						<span>{this.props.values.dateAdded}</span>
+						<span>{this.date}</span>
 					</div>
-					<div className={classes.download}>
-						<button
-							className={classes.btn}
-							onClick={() => this.props.onDownload(this.props.values.file.path, this.props.values.name)}
-						>
-							Download
+					<div className={classes.download} style={{ transform: "translateY(-25%)" }}>
+						<button onClick={() => this.props.onDownload(this.props.values.file.path, this.props.values.name)}>
+							<div className={classes.iconContainer}>
+								<i className="material-icons">get_app</i>
+							</div>
 						</button>
 					</div>
-					<div className={classes.delete}>
-						<button className={classes.btn} onClick={this.props.onDelete}>
-							Delete
+					<div className={classes.delete} style={{ transform: "translateY(-25%)" }}>
+						<button onClick={this.props.onDelete}>
+							<div className={classes.fileContainer}>
+								<i className="material-icons">delete</i>
+							</div>
 						</button>
 					</div>
 					<ShareButton values={this.props.values} />

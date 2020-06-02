@@ -1,4 +1,4 @@
-header {
+/* header {
 	box-sizing: border-box;
 	position: fixed;
 	width: 100%;
@@ -57,4 +57,84 @@ i {
 	position: relative;
 	display: inline-block;
 	overflow: visible;
+} */
+
+header {
+	box-sizing: border-box;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: #1a1a1a;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 70px;
+	padding: 0 1.5rem;
+	z-index: 2;
+}
+
+nav {
+	height: 70%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+a,
+button {
+	padding: 0.3rem;
+	margin: 0 0.5rem;
+	text-decoration: none;
+	cursor: pointer;
+	color: white;
+	background: none;
+	color: inherit;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	display: flex;
+}
+
+.button:hover {
+	background-color: whitesmoke;
+}
+.spacer {
+	flex: 1 1 auto;
+}
+
+.iconContainer {
+	display: inline-block;
+	position: relative;
+	width: 30px;
+	height: 100%;
+	text-align: center;
+}
+
+i {
+	position: absolute;
+	transform: translateX(-50%);
+}
+
+/*.DropDownContainer {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+}*/
+.DropDownContainer {
+	position: relative;
+	display: inline-block;
+	overflow: visible;
+	border-radius: 12px;
+	border: none;
+	color: white;
+	padding: 10px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	margin-left: 10;
+}
+.DropDownContainer:hover {
+	background-color: rgb(56, 56, 54);
 }

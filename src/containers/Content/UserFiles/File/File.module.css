@@ -1,3 +1,27 @@
+/* .file {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+}
+
+.btn {
+	padding: 0;
+	margin: 0;
+}
+
+div {
+	overflow: hidden;
+}
+
+.name {
+	width: 40%;
+}
+
+.delete {
+	color: red;
+} */
+
 .file {
 	display: flex;
 	flex-direction: row;
@@ -16,14 +40,19 @@ div {
 
 .name {
 	width: 40%;
-	/* flex-wrap: nowrap;
-	overflow: hidden; */
 }
 
-.delete {
-	color: red;
+.fileContainer {
+	margin-left: 12px;
+}
+.fileName {
+	margin-left: 32px;
 }
 
-/* div > span {
-	overflow: hidden;
-} */
+.iconContainer {
+	display: inline-block;
+	position: relative;
+	width: 30px;
+	height: 100%;
+	text-align: center;
+}
