@@ -29,10 +29,14 @@ class File extends Component {
 				? "picture_as_pdf"
 				: ext === "gif"
 				? "gif"
-				: ext === "html"
+				: ["html", "c", "cpp", "js", "css", "java", "py", "scss", ".sol", "cs", "ts"].includes(ext)
 				? "code"
-				: ext === "png" || ext === "jpg" || ext === "jpeg"
+				: ["png", "jpg", "jpeg", "webp"].includes(ext)
 				? "insert_photo"
+				: ["mp4", "ogg", "mkv", "flv"].includes(ext)
+				? "movie"
+				: ["mp3", "3ga", "flac", "wav", "opus"].includes(ext)
+				? "music_note"
 				: "description";
 
 		//for formatting dates
@@ -41,11 +45,16 @@ class File extends Component {
 		//for getting size in respective bytes
 		let fs = this.props.values.file.size;
 		let i = 0;
-		while (fs / 1024 > 1) {
-			fs /= 1024;
-			i += 1;
-			this.size = i === 1 ? "KB" : i === 2 ? "MB" : i === 3 ? "GB" : "B";
-			this.reducedSize = fs.toFixed(1);
+		if (fs < 1024) {
+			this.size = "B";
+			this.reducedSize = fs;
+		} else {
+			while (fs / 1024 > 1) {
+				fs /= 1024;
+				i += 1;
+				this.size = i === 1 ? "KB" : i === 2 ? "MB" : i === 3 ? "GB" : "B";
+				this.reducedSize = fs.toFixed(1);
+			}
 		}
 	}
 
@@ -55,7 +64,7 @@ class File extends Component {
 				<div className={classes.file}>
 					<div className={classes.name}>
 						<div className={classes.fileContainer}>
-							<i class="material-icons">{this.img}</i>
+							<i className="material-icons">{this.img}</i>
 						</div>
 						<div className={classes.fileName}>
 							<span>{this.props.values.name}</span>

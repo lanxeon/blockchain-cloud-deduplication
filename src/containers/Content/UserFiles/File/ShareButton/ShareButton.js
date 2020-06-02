@@ -86,6 +86,48 @@ class ShareButton extends Component {
 		}
 	};
 
+	// render() {
+	// 	let errMsg = this.state.formError ? (
+	// 		<div className={classes.err}>
+	// 			<span>{this.state.formError}</span>
+	// 		</div>
+	// 	) : null;
+
+	// 	return (
+	// 		<div className={classes.ShareButton} ref={this.mainModal}>
+	// 			<button className={classes.btn} onClick={this.toggleSharing}>
+	// 				<span>Share</span>
+	// 			</button>
+	// 			{this.state.sharing ? (
+	// 				<div className={classes.formContainer} ref={this.modal}>
+	// 					<form className={classes.form} onSubmit={this.submitHandler}>
+	// 						<input
+	// 							className={classes.input}
+	// 							type="text"
+	// 							minLength="3"
+	// 							placeholder="Enter alias"
+	// 							maxLength="15"
+	// 							value={this.state.value}
+	// 							onChange={this.changedHandler}
+	// 						></input>
+	// 						{errMsg}
+	// 						<div className={classes.btnContainer}>
+	// 							<button
+	// 								style={{ border: "1px solid darkcyan", borderRadius: "10%", backgroundColor: "darkcyan" }}
+	// 							>
+	// 								<span>Share</span>
+	// 							</button>
+	// 							<button onClick={this.toggleSharing}>
+	// 								<span style={{ color: "red" }}>Cancel</span>
+	// 							</button>
+	// 						</div>
+	// 					</form>
+	// 				</div>
+	// 			) : null}
+	// 		</div>
+	// 	);
+	// }
+
 	render() {
 		let errMsg = this.state.formError ? (
 			<div className={classes.err}>
@@ -96,7 +138,9 @@ class ShareButton extends Component {
 		return (
 			<div className={classes.ShareButton} ref={this.mainModal}>
 				<button className={classes.btn} onClick={this.toggleSharing}>
-					<span>Share</span>
+					<div className={classes.shareContainer} style={{ transform: "translateY(-25%)" }}>
+						<i className="material-icons">supervisor_account</i>
+					</div>
 				</button>
 				{this.state.sharing ? (
 					<div className={classes.formContainer} ref={this.modal}>

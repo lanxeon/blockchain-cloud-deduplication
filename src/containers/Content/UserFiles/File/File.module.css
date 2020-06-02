@@ -1,27 +1,3 @@
-/* .file {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	flex-wrap: nowrap;
-}
-
-.btn {
-	padding: 0;
-	margin: 0;
-}
-
-div {
-	overflow: hidden;
-}
-
-.name {
-	width: 40%;
-}
-
-.delete {
-	color: red;
-} */
-
 .file {
 	display: flex;
 	flex-direction: row;

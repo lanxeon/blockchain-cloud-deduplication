@@ -9,7 +9,6 @@ div {
 
 .ShareButton {
 	position: relative;
-	/* display: inline-block; */
 }
 
 .formContainer {
@@ -62,4 +61,8 @@ div {
 .btnContainer button {
 	padding: 0.2rem 0.3rem 0.3rem 0.3rem;
 	margin: 0 0.3rem;
+}
+
+.shareContainer {
+	margin-right: 15px;
 }
