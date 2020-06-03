@@ -243,7 +243,6 @@ class App extends Component {
 					uploadFile={file => this.fileUploadHandler(file)}
 					clickedOutside={this.clickedOutsideHandler}
 				/>
-				<SideNav />
 				<UserContext.Provider
 					value={{
 						userPublicKey: this.state.userPublicKey,
@@ -251,6 +250,7 @@ class App extends Component {
 						contract: this.state.FileBlockchain,
 					}}
 				>
+					<SideNav />
 					<Main />
 				</UserContext.Provider>
 				{/* <Footer /> */}

@@ -54,12 +54,17 @@ router.post("/upload/new", multer({ storage: storage }).single("file"), async (r
 			};
 
 			let updatedUser = await UserModel.findByIdAndUpdate(ownerId, { $push: { files: newFile } });
+			console.log(updatedUser.bytesUploaded);
 
-			if (updatedUser)
+			if (updatedUser) {
+				let bytesUpdatedUser = await UserModel.findByIdAndUpdate(ownerId, {
+					bytesUploaded: updatedUser.bytesUploaded + parseInt(req.body.fileSize, 10),
+				});
 				return res.status(201).json({
 					message: "File uploaded",
 					file: result,
 				});
+			}
 		}
 
 		res.status(500).json({
@@ -108,26 +113,16 @@ router.post("/upload/dup", async (req, res, next) => {
 				name: req.body.name,
 			};
 
-			// if (!fileRegisteredUser && !UserRegisteredFile) {
-			// let ownerUpdated = await UserModel.findOneAndUpdate(
-			// 	{ key: req.body.owner },
-			// 	{ $push: { files: userFileElement } }
-			// );
-			// 	if (ownerUpdated) {
-			// let fileUpdated = await FileModel.findByIdAndUpdate(file._id, {
-			// 	$push: { owners: { owner: ownerUpdated._id } },
-			// });
-			// 		if (fileUpdated) {
-			// return res.status(201).json({
-			// 	user: ownerUpdated,
-			// 	file: fileUpdated,
-			// });
-			// 		}
-			// 	}
-			// }
 			let ownerUpdated, fileUpdated;
 			if (!userRegisteredFile) {
-				ownerUpdated = await UserModel.findOneAndUpdate({ key: req.body.owner }, { $push: { files: userFileElement } });
+				let oldownerUpdated = await UserModel.findOneAndUpdate(
+					{ key: req.body.owner },
+					{ $push: { files: userFileElement } }
+				);
+				ownerUpdated = await UserModel.findOneAndUpdate(
+					{ key: req.body.owner },
+					{ bytesSaved: oldownerUpdated.bytesSaved + file.size }
+				);
 			}
 			if (!fileRegisteredUser) {
 				fileUpdated = await FileModel.findByIdAndUpdate(file._id, {

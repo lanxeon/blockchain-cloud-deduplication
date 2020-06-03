@@ -87,4 +87,28 @@ router.get("/acquire/key/:alias", async (req, res, next) => {
 	}
 });
 
+//get the uploaded and saved bytes for a user
+router.get("/bandwidth/:key", async (req, res, next) => {
+	try {
+		let user = await UserModel.findOne({ key: req.params.key });
+
+		if (user)
+			return res.status(200).json({
+				message: "file retrieved successfully",
+				saved: user.bytesSaved,
+				uploaded: user.bytesUploaded,
+			});
+
+		res.status(404).json({
+			message: "user not found",
+		});
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({
+			message: "Something went wrong retrieving user stats",
+			error: err,
+		});
+	}
+});
+
 module.exports = router;
