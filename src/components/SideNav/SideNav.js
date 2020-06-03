@@ -50,6 +50,9 @@ class SideNav extends Component {
 			<div className={classes.SideNav}>
 				{!this.state.isLoading ? (
 					<div className={classes.progressContainer}>
+						<div>
+							<h4>Bandwidth</h4>
+						</div>
 						<div className={classes.progressBar}>
 							<div className={classes.uploaded} style={{ width: `${this.state.uploadedPercentage}%` }}></div>
 							<div className={classes.saved} style={{ width: `${this.state.savedPercentage}%` }}></div>
