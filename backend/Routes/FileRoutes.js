@@ -202,6 +202,7 @@ router.post("/share", async (req, res, next) => {
 				if (!fileExistsInUserDb)
 					updatedToUser = await UserModel.findByIdAndUpdate(toUserId, {
 						$push: { files: { file: fileId, name: fileName } },
+						$inc: { bytesSaved: file.size },
 					});
 
 				return res.status(201).json({

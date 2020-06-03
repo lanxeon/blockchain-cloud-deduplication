@@ -55,11 +55,11 @@ class SideNav extends Component {
 							<div className={classes.saved} style={{ width: `${this.state.savedPercentage}%` }}></div>
 						</div>
 						<div className={classes.mapContainer}>
-							<div style={{ color: "red" }}>
-								<span>Uploaded</span>
+							<div style={{ color: "red" }} className={classes.up}>
+								<span>Uploaded {((this.state.uploaded + 1) / (1024 * 1024)).toFixed(1)}MB</span>
 							</div>
-							<div style={{ color: "cyan" }}>
-								<span>Saved</span>
+							<div style={{ color: "cyan" }} className={classes.sav}>
+								<span>Saved {((this.state.saved + 1) / (1024 * 1024)).toFixed(1)}MB</span>
 							</div>
 						</div>
 					</div>
