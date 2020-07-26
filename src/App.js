@@ -65,7 +65,10 @@ class App extends Component {
 
 	//Web3 functions to load up blockChain and smart contract data
 	async loadBlockchainData() {
-		const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+		const web3 = new Web3(window.ethereum || "http://localhost:8545");
+		// console.log(web3);
+		window.ethereum.enable();
+		// const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 		const accounts = await web3.eth.getAccounts();
 		this.setState({ userPublicKey: accounts[0] });
 		const FileBlockchain = new web3.eth.Contract(ABI, ADDRESS);
@@ -86,7 +89,7 @@ class App extends Component {
 	};
 
 	//To handle file upload
-	fileUploadHandler = async file => {
+	fileUploadHandler = async (file) => {
 		let fr = new FileReader();
 
 		fr.onload = async () => {
@@ -98,9 +101,11 @@ class App extends Component {
 
 			let hash = "0x" + sha256(hexString);
 
-			const results = await this.state.FileBlockchain.methods.insertFile(hash, this.state.userPublicKey, file.name).send({
-				from: this.state.userPublicKey,
-			});
+			const results = await this.state.FileBlockchain.methods
+				.insertFile(hash, this.state.userPublicKey, file.name)
+				.send({
+					from: this.state.userPublicKey,
+				});
 
 			//New File, upload entire file to cloud
 			if (results.events["NewUpload"]) {
@@ -122,7 +127,8 @@ class App extends Component {
 				let uploaded = await axios.post("http://localhost:3001/cloud/upload/new", formData);
 
 				console.log(uploaded.data.message);
-				if (!alert("File of size " + (file.size / (1024 * 1024)).toFixed(1) + "MB uploaded")) window.location.reload();
+				if (!alert("File of size " + (file.size / (1024 * 1024)).toFixed(1) + "MB uploaded"))
+					window.location.reload();
 			}
 			//Duplicate file, register owner as user(if file doesn't exist, then reupload the file as well)
 			else if (results.events["DuplicateUpload"]) {
@@ -137,11 +143,20 @@ class App extends Component {
 						owner: results.events["DuplicateUpload"].returnValues.addr,
 						name: file.name,
 					};
-					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
+					let duplicateUploadRes = await axios.post(
+						"http://localhost:3001/cloud/upload/dup",
+						jsonData
+					);
 
 					console.log(duplicateUploadRes);
 					// if (duplicateUploadRes.data)
-					if (!alert("Duplicate file: bandwidth and storage of " + (file.size / (1024 * 1024)).toFixed(1) + "MB saved"))
+					if (
+						!alert(
+							"Duplicate file: bandwidth and storage of " +
+								(file.size / (1024 * 1024)).toFixed(1) +
+								"MB saved"
+						)
+					)
 						window.location.reload();
 					/* eof */
 				} else {
@@ -179,7 +194,10 @@ class App extends Component {
 						owner: results.events["DuplicateUploadAndUser"].returnValues.addr,
 						name: file.name,
 					};
-					let duplicateUploadRes = await axios.post("http://localhost:3001/cloud/upload/dup", jsonData);
+					let duplicateUploadRes = await axios.post(
+						"http://localhost:3001/cloud/upload/dup",
+						jsonData
+					);
 
 					console.log(duplicateUploadRes);
 					// if (duplicateUploadRes.data)
@@ -236,11 +254,11 @@ class App extends Component {
 				{!this.state.userExists ? <CreateUser userPublicKey={this.state.userPublicKey} /> : null}
 				{/* Bare skeleton structure  */}
 				<Header
-					uploadOnClick={file => this.DropDownMenuToggled(file)}
+					uploadOnClick={(file) => this.DropDownMenuToggled(file)}
 					uploadMenu={this.state.UploadMenu}
 					accountKey={this.state.userPublicKey}
 					accountAlias={this.state.userAlias}
-					uploadFile={file => this.fileUploadHandler(file)}
+					uploadFile={(file) => this.fileUploadHandler(file)}
 					clickedOutside={this.clickedOutsideHandler}
 				/>
 				<UserContext.Provider
