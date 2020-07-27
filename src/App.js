@@ -14,6 +14,7 @@ import SideNav from "./components/SideNav/SideNav";
 // import Footer from "./components/Footer/Footer";
 import CreateUser from "./components/CreateUser/CreateUser";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+import Progress from "./components/Progress/Progress";
 
 //contract config
 import { ABI, ADDRESS } from "./config/contract";
@@ -254,6 +255,7 @@ class App extends Component {
 		userPublicKey: null,
 		userExists: false,
 		UploadMenu: false,
+		ongoingUploads: [],
 	};
 
 	//main function to call that renders the elements on screen(ok bit of a correction. rather it renders the virtual DOM)
@@ -281,6 +283,7 @@ class App extends Component {
 					<Main />
 				</UserContext.Provider>
 				{/* <Footer /> */}
+				{this.state.ongoingUploads.length > 0 ? <Progress files={this.state.ongoingUploads} /> : null}
 			</React.Fragment>
 		);
 

@@ -1,0 +1,18 @@
+.Progress {
+	position: fixed;
+	bottom: 5%;
+	right: 5%;
+	display: flex;
+	width: 230px;
+	flex-direction: column;
+	justify-content: center;
+	background-color: #212121;
+	border-radius: 5px;
+	box-sizing: border-box;
+	padding: 0.6rem;
+}
+
+/* h4 {
+	text-align: center;
+	margin: 0;
+} */
