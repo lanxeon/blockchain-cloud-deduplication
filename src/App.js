@@ -90,7 +90,7 @@ class App extends Component {
 
 	//To handle file upload
 	fileUploadHandler = async (file) => {
-		if (file.size > 1048576) {
+		if (file.size > 104857600) {
 			alert(
 				"Oops! File size too big (" +
 					(file.size / (1024 * 1024)).toFixed(2) +
