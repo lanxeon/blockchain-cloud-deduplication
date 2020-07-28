@@ -24,4 +24,5 @@ yarn-error.log*
 
 #the files folder
 /files
+files/
 

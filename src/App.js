@@ -77,20 +77,39 @@ class App extends Component {
 	}
 
 	//to toggle dropdown menu of the upload menu
-	DropDownMenuToggled = () => {
-		let currentUploadMenu = this.state.UploadMenu;
-		this.setState({
-			UploadMenu: !currentUploadMenu,
-		});
-	};
+	// DropDownMenuToggled = () => {
+	// 	let currentUploadMenu = this.state.UploadMenu;
+	// 	this.setState({
+	// 		UploadMenu: !currentUploadMenu,
+	// 	});
+	// };
 
 	//toggling the closing of menu
 	clickedOutsideHandler = () => {
 		if (this.state.UploadMenu) this.setState({ UploadMenu: false });
 	};
 
+	//update progress bar for file of certain index
+	updateProgress = (index, message, progress) => {
+		this.setState((prevState, prevProps) => {
+			prevState.ongoingUploads[index].message = message;
+			prevState.ongoingUploads[index].completed = progress;
+			return {
+				ongoingUploads: prevState.ongoingUploads,
+			};
+		});
+	};
+
 	//To handle file upload
 	fileUploadHandler = async (file) => {
+		this.setState({
+			ongoingUploads: [
+				{
+					message: "Initializing the upload process",
+					completed: 5,
+				},
+			],
+		});
 		if (file.size > 104857600) {
 			alert(
 				"Oops! File size too big (" +
@@ -108,8 +127,11 @@ class App extends Component {
 			let hexString = "";
 
 			for (let i = 0; i < arr.length; i++) hexString += arr[i].toString(16);
+			this.updateProgress(0, "Hashing the file", 25);
 
 			let hash = "0x" + sha256(hexString);
+
+			this.updateProgress(0, "Waiting for user to accept/reject the transaction", 70);
 
 			const results = await this.state.FileBlockchain.methods
 				.insertFile(hash, this.state.userPublicKey, file.name)
@@ -145,7 +167,7 @@ class App extends Component {
 				console.log("DUPLICATE FILE DOWNLOAD");
 
 				let fileExists = await axios.get("http://localhost:3001/cloud/integrity/" + hash);
-				console.log(fileExists);
+				// console.log(fileExists);
 
 				if (fileExists.data) {
 					let jsonData = {
@@ -242,6 +264,9 @@ class App extends Component {
 						window.location.reload();
 				}
 			}
+			this.setState({
+				ongoingUploads: [],
+			});
 		};
 
 		fr.readAsArrayBuffer(file);
@@ -265,8 +290,8 @@ class App extends Component {
 				{!this.state.userExists ? <CreateUser userPublicKey={this.state.userPublicKey} /> : null}
 				{/* Bare skeleton structure  */}
 				<Header
-					uploadOnClick={(file) => this.DropDownMenuToggled(file)}
-					uploadMenu={this.state.UploadMenu}
+					// uploadOnClick={(file) => this.DropDownMenuToggled(file)}
+					// uploadMenu={this.state.UploadMenu}
 					accountKey={this.state.userPublicKey}
 					accountAlias={this.state.userAlias}
 					uploadFile={(file) => this.fileUploadHandler(file)}
