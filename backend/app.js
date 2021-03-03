@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const bp = require("body-parser");
 const path = require("path");
@@ -16,7 +18,7 @@ let accounts, lms;
 
 const app = express();
 mongoose
-	.connect("mongodb+srv://lanxion:Theandre2131@cluster0-e3flj.mongodb.net/blockchain-dedup?retryWrites=true&w=majority", {
+	.connect(process.env.DB_URL, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useFindAndModify: false,
@@ -66,6 +68,8 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
 	req.lms = lms;
 	req.accounts = accounts;
+
+	next();
 });
 
 //routes
