@@ -156,6 +156,25 @@ router.post("/upload/dup", async (req, res, next) => {
     let user = await UserModel.findOne({ key: req.body.owner });
 
     if (file && user) {
+      //check with the blockchain if the user is owner of file
+      //call the smart contract function
+      let payload = await req.lms.isOwner(req.body.hash, req.body.owner, {
+        from: req.accounts[0],
+      });
+      //extract the emmited event
+      let event = payload.logs[0].event;
+      if (event === "UserIsOwner") {
+        let isOwner = payload.logs[0].args.owner;
+        if (!isOwner)
+          return res.status(401).json({
+            message: "User does not own file and does not have permission!",
+          });
+      } else if (event === "FileExists") {
+        return res.status(404).json({
+          message: "No such file exists in the Blockchain!",
+        });
+      }
+
       let fileRegisteredUser = file.owners.find((iterOwner) => {
         return iterOwner.owner.equals(user._id);
       });

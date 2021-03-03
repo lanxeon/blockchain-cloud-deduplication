@@ -76,6 +76,13 @@ contract FileCheck {
         return true;
     }
 
+    function fileExistsCheck(bytes32 filehash) public {
+        if(!files[filehash].exists)
+            emit FileExists(filehash, false);
+        
+        else emit FileExists(filehash, true);
+    }
+
     function isOwner(bytes32 filehash, address addr)
     public {
         if(fileExists(filehash)) {
