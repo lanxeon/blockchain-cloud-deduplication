@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-// const http = require("http");
+const fs = require("fs");
 
 const FileModel = require("../Models/File");
 const UserModel = require("../Models/User");
@@ -32,6 +32,13 @@ router.post("/upload/new", multer({ storage: storage }).single("file"), async (r
 			return res.status(401).json({
 				message: "Not Authorized",
 			});
+
+			try{
+				let evnt = await req.lms.isOwner(req.body.hash, req.body.owner, {from: req.accounts[0]});
+		console.log(evnt);
+		fs.writeFileSync("./lmao.json", JSON.stringify(evnt));
+			} catch(err) {console.log(err);}
+		
 
 		//making the file model
 		let file = new FileModel({

@@ -20,6 +20,11 @@ contract FileCheck {
     event FileNotExistOrUserNotOwner(bytes32 fh);
     event FileShared(bytes32 _fileHash, address _from, address _to);
     event AddressIsNotOwner();
+
+    //backend events
+    event UserIsOwner(bytes32 fh, address indexed addr, string name, bool owner);
+    event FileExists(bytes32 fh, bool exists);
+
     // constructor() public {}
 
     function insertFile(bytes32 _fileHash, address _address, string memory _name)
@@ -62,6 +67,24 @@ contract FileCheck {
         }
 
         else emit FileNotExistOrUserNotOwner(_fileHash);
+    }
+
+    function fileExists(bytes32 filehash) public returns(bool) {
+        if(!files[filehash].exists)
+            return false;
+        
+        return true;
+    }
+
+    function isOwner(bytes32 filehash, address addr)
+    public {
+        if(fileExists(filehash)) {
+            if(files[filehash].owner[addr])
+                emit UserIsOwner(filehash, addr, files[filehash].name, true);
+            else 
+                emit UserIsOwner(filehash, addr, files[filehash].name, false);
+        } else 
+            emit FileExists(filehash, false);
     }
 
     // function insertFolder(bytes32[] _fileHash, address _address, string memory _name) public
