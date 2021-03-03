@@ -1,9 +1,13 @@
 const express = require("express");
-const router = express.Router();
+const fs = require("fs");
+const path = require("path");
+const { sha256 } = require("js-sha256");
 const multer = require("multer");
 
 const FileModel = require("../Models/File");
 const UserModel = require("../Models/User");
+
+const router = express.Router();
 
 //multer config
 const storage = multer.diskStorage({
@@ -41,20 +45,43 @@ router.post(
           message: "Not Authorized",
         });
 
-      //   //check with the blockchain if the user is owner of file
-      //   let payload = await req.lms.isOwner(req.body.hash, req.body.owner, {
-      //     from: req.accounts[0],
-      //   });
+      //hashing the file to confirm that the hashes match
+      let fileToHash = fs.readFileSync(
+        path.join(__dirname, "..", "files", req.file.filename)
+      );
+      let arr = new Uint8Array(fileToHash);
+      let hexString = "";
+      for (let i = 0; i < arr.length; i++) hexString += arr[i].toString(16);
+      let hash = "0x" + sha256(hexString);
 
-      //   let event = payload.logs[0].event;
-      //   if (event === "UserIsOwner") {
-      //     let isOwner = payload.logs[0].args.owner;
+      //if the hashes don't match, it is likely a malicious user trying to upload incorrect file
+      if (hash != req.body.hash) {
+        return res.status(400).json({
+          message: "Incorrect File Uploaded!",
+        });
+      }
 
-      //     if (!isOwner)
-      //       return res.status(500).json({
-      //         message: "User does not own file and does not have permission!",
-      //       });
-      //   }
+      //check with the blockchain if the user is owner of file
+
+      //call the smart contract function
+      let payload = await req.lms.isOwner(req.body.hash, req.body.owner, {
+        from: req.accounts[0],
+      });
+
+      //extract the emmited event
+      let event = payload.logs[0].event;
+      if (event === "UserIsOwner") {
+        let isOwner = payload.logs[0].args.owner;
+
+        if (!isOwner)
+          return res.status(500).json({
+            message: "User does not own file and does not have permission!",
+          });
+      } else if (event === "FileExists") {
+        return res.status(400).json({
+          message: "No such file exists in the Blockchain!",
+        });
+      }
 
       //making the file model
       let file = new FileModel({
@@ -82,7 +109,7 @@ router.post(
         console.log(updatedUser.bytesUploaded);
 
         if (updatedUser) {
-          let bytesUpdatedUser = await UserModel.findByIdAndUpdate(ownerId, {
+          await UserModel.findByIdAndUpdate(ownerId, {
             bytesUploaded:
               updatedUser.bytesUploaded + parseInt(req.body.fileSize, 10),
           });
@@ -174,7 +201,6 @@ router.post("/upload/dup", async (req, res, next) => {
 
 //for downloading a file
 router.get("/download", async (req, res, next) => {
-  // req.protocol + "://" + req.get("host");
   console.log(req.query.path);
   res.download("backend/" + req.query.path, "lmao.txt", (err) => {
     console.log(err);
